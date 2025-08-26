@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Comunicación WebSocket</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #connectionStatus {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        #chatbox {
+            border: 1px solid #ccc;
+            padding: 10px;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        input[type="text"] {
+            width: calc(100% - 80px);
+            padding: 8px;
+            margin-right: 5px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Cliente WebSocket</h1>
+
+    <div id="connectionStatus">Estado: Desconectado</div>
+    <div id="chatbox"></div>
+
+    <input type="text" id="messageInput" placeholder="Escribe tu mensaje...">
+    <button onclick="sendMessage()">Enviar</button>
+
+    <script>
+        // Obtiene referencias a los elementos HTML
+        const chatbox = document.getElementById('chatbox');
+        const messageInput = document.getElementById('messageInput');
+        const connectionStatusDiv = document.getElementById('connectionStatus');
+
+        let ws; // Variable para almacenar la instancia de WebSocket
+        let reconnectInterval = 3000; // Intervalo de reconexión en milisegundos (3 segundos)
+        let reconnectAttempts = 0;
+        const maxReconnectAttempts = 5; // Número máximo de intentos de reconexión
+
+        // Función para actualizar el estado de la conexión en la interfaz
+        function updateConnectionStatus(status, color) {
+            connectionStatusDiv.textContent = `Estado: ${status}`;
+            connectionStatusDiv.style.color = color;
+        }
+
+        // Función para establecer la conexión WebSocket
+        function connectWebSocket() {
+            // Cierra la conexión existente si la hay para evitar múltiples conexiones
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.close();
+            }
+
+            updateConnectionStatus('Conectando...', 'orange');
+            // Crea una nueva conexión WebSocket. Asegúrate de que esta es la IP y puerto correctos de tu servidor WebSocket.
+            // Si tu servidor está en una dirección o puerto diferente, debes cambiar esta línea.
+            ws = new WebSocket('ws://192.168.100.16:81'); 
+
+            // Evento que se dispara cuando la conexión WebSocket se abre
+            ws.onopen = () => {
+                appendMessage('Conectado al servidor WebSocket.', 'system');
+                updateConnectionStatus('Conectado', 'green');
+                reconnectAttempts = 0; // Reinicia los intentos de reconexión al conectar con éxito
+            };
+
+            // Evento que se dispara cuando se recibe un mensaje del servidor
+            ws.onmessage = (event) => {
+                appendMessage(`Servidor: ${event.data}`, 'server');
+            };
+
+            // Evento que se dispara cuando la conexión WebSocket se cierra
+            ws.onclose = () => {
+                appendMessage('Desconectado del servidor WebSocket.', 'system');
+                updateConnectionStatus('Desconectado', 'red');
+                // Intenta reconectar si no se ha alcanzado el límite de intentos
+                if (reconnectAttempts < maxReconnectAttempts) {
+                    reconnectAttempts++;
+                    appendMessage(`Intentando reconectar en ${reconnectInterval / 1000} segundos... (Intento ${reconnectAttempts}/${maxReconnectAttempts})`, 'system');
+                    setTimeout(connectWebSocket, reconnectInterval);
+                } else {
+                    appendMessage('Se alcanzó el número máximo de intentos de reconexión. Por favor, recarga la página.', 'error');
+                }
+            };
+
+            // Evento que se dispara si ocurre un error en la conexión WebSocket
+            ws.onerror = (error) => {
+                appendMessage(`Error en WebSocket: ${error.message}`, 'error');
+                console.error('WebSocket Error:', error);
+                // El evento onclose también se disparará después de un error, manejando la reconexión.
+            };
+        }
+
+        // Función para enviar un mensaje al servidor
+        function sendMessage() {
+            const message = messageInput.value;
+            // Verifica que el mensaje no esté vacío y que la conexión esté abierta antes de enviarlo
+            if (message.trim() !== '') {
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    ws.send(message); // Envía el mensaje a través de WebSocket
+                    appendMessage(`Tú: ${message}`, 'client'); // Muestra el mensaje en el chatbox
+                    messageInput.value = ''; // Limpia el cuadro de texto
+                } else {
+                    appendMessage('No se pudo enviar el mensaje: Conexión WebSocket no abierta.', 'error');
+                }
+            }
+        }
+
+        // Función para añadir mensajes al chatbox
+        function appendMessage(message, type) {
+            const p = document.createElement('p'); // Crea un nuevo párrafo
+            p.textContent = message; // Establece el texto del párrafo
+
+            // Aplica estilos diferentes según el tipo de mensaje
+            if (type === 'system') {
+                p.style.color = 'blue';
+                p.style.fontStyle = 'italic';
+            } else if (type === 'server') {
+                p.style.color = 'green';
+            } else if (type === 'client') {
+                p.style.color = 'purple';
+            } else if (type === 'error') {
+                p.style.color = 'red';
+                p.style.fontWeight = 'bold';
+            }
+            
+            chatbox.appendChild(p); // Añade el párrafo al chatbox
+            chatbox.scrollTop = chatbox.scrollHeight; // Hace scroll automático al final del chatbox
+        }
+
+        // Añade un event listener para enviar mensajes al presionar la tecla 'Enter'
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Inicia la conexión WebSocket cuando la página se carga
+        window.onload = connectWebSocket;
+
+    </script>
+
+</body>
+</html>

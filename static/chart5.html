@@ -1,0 +1,2083 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tostaneitor 3000</title>
+    <!-- Fuente Inter de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Iconos de Google Material Design -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* Variables CSS para el tema */
+        :root {
+            /* Colores modo oscuro */
+            --primary-main-dark: #0d9488; /* Teal */
+            --primary-light-dark: #2dd4bf; /* Teal 300 */
+            --secondary-main-dark: #38bdf8; /* Sky Blue */
+            --background-default-dark: #1f2937; /* Gray 800 */
+            --background-paper-dark: #374151;   /* Gray 700 */
+            --text-primary-dark: #e5e7eb; /* Gray 200 */
+            --text-secondary-dark: #9ca3af; /* Gray 400 */
+            --divider-dark: #4b5563; /* Gray 600 */
+            --input-bg-dark: #4b5563; /* Gray 600 */
+            --input-border-dark: #6b7280; /* Gray 500 */
+            --input-hover-border-dark: #a7d9e5; /* Brighter blue for hover */
+            --input-focus-border-dark: #38bdf8; /* Sky 400 */
+            --modal-bg-dark: #374151; /* Gray 700 */
+
+            /* Colores modo claro */
+            --primary-main-light: #059669; /* Emerald */
+            --primary-light-light: #34d399; /* Emerald 400 */
+            --secondary-main-light: #38bdf8; /* Sky Blue */
+            --background-default-light: #f3f4f6; /* Gray 100 */
+            --background-paper-light: #ffffff;   /* White */
+            --text-primary-light: #1f2937; /* Gray 800 */
+            --text-secondary-light: #6b7280; /* Gray 500 */
+            --divider-light: #d1d5db; /* Gray 300 */
+            --input-bg-light: #e5e7eb; /* Gray 200 */
+            --input-border-light: #d1d5db; /* Gray 300 */
+            --input-hover-border-light: #9ca3af; /* Gray 400 for hover */
+            --input-focus-border-light: #0c4a6e; /* Darker blue for focus */
+            --modal-bg-light: #f9fafb; /* Gray 50 */
+
+            /* Colores de estado */
+            --success-main: #10b981; /* Green */
+            --error-main: #ef4444;   /* Red */
+            --warning-main: #f59e0b; /* Amber */
+
+            /* Colores del gráfico (independientes del tema) */
+            --chart-int-color: rgba(56, 189, 248, 1);
+            --chart-int-bg-color: rgba(56, 189, 248, 0.15);
+            --chart-float-color: rgba(251, 191, 36, 1); /* This color is no longer used for a plotted line, but kept for reference */
+            --chart-float-bg-color: rgba(251, 191, 36, 0.15); /* This color is no longer used for a plotted line, but kept for reference */
+            --chart-loaded-int-color: rgba(239, 68, 68, 1); /* Red for loaded int */
+            --chart-loaded-float-color: rgba(245, 158, 11, 1); /* Amber for loaded float - no longer used for a plotted line */
+
+
+            /* Tema inicial */
+            --primary-main: var(--primary-main-dark);
+            --primary-light: var(--primary-light-dark);
+            --secondary-main: var(--secondary-main-dark);
+            --background-default: var(--background-default-dark);
+            --background-paper: var(--background-paper-dark);
+            --text-primary: var(--text-primary-dark);
+            --text-secondary: var(--text-secondary-dark);
+            --divider-color: var(--divider-dark);
+            --input-bg: var(--input-bg-dark);
+            --input-border: var(--input-border-dark);
+            --input-hover-border: var(--input-hover-border-dark);
+            --input-focus-border: var(--input-focus-border-dark);
+            --modal-bg: var(--modal-bg-dark);
+        }
+
+        body.light-theme {
+            --primary-main: var(--primary-main-light);
+            --primary-light: var(--primary-light-light);
+            --secondary-main: var(--secondary-main-light);
+            --background-default: var(--background-default-light);
+            --background-paper: var(--background-paper-light);
+            --text-primary: var(--text-primary-light);
+            --text-secondary: var(--text-secondary-light);
+            --divider-color: var(--divider-light);
+            --input-bg: var(--input-bg-light);
+            --input-border: var(--input-border-light);
+            --input-hover-border: var(--input-hover-border-light);
+            --input-focus-border: var(--input-focus-border-light);
+            --modal-bg: var(--modal-bg-light);
+        }
+
+        /* Estilos generales */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--background-default);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Contenedor principal */
+        .app-container {
+            width: 100%;
+            /*max-width: 1280px;*/
+            background-color: var(--background-paper);
+            /*border-radius: 22px;*/
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+             /*margin: 16px; Responsive margin */
+        }
+
+        /* AppBar/Header */
+        .app-bar {
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            border-bottom: 1px solid var(--divider-color);
+            background-color: transparent;
+        }
+
+        .app-bar h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--primary-main);
+            font-weight: 600;
+            flex-grow: 1;
+        }
+
+        .app-bar-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .theme-toggle-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            padding: 8px;
+            border-radius: 20%;
+            transition: background-color 0.2s ease;
+        }
+        .theme-toggle-button:hover {
+            background-color: rgba(var(--text-secondary), 0.1);
+        }
+
+        .status-chip {
+            padding: 6px 12px;
+            border-radius: 2px;
+            font-weight: bold;
+            font-size: 0.875rem;
+            background-color: var(--background-default);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .status-chip.success { background-color: var(--success-main); color: white; }
+        .status-chip.error { background-color: var(--error-main); color: white; }
+
+        /* Large Temperature Display */
+        .temp-display-wrapper {
+            padding: 0px;
+        }
+
+        .temp-display {
+            background-color: var(--background-default);
+            border: 0px solid var(--divider-color);
+            color: var(--secondary-main);
+            font-size: 4rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 5px;
+            border-radius: 2px;
+            margin-bottom: 0px;
+            box-shadow: inset 0 0px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5); /* Sky blue glow */
+            transition: background-color 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .delta-display {
+            background-color: var(--background-default);
+            border: 0px solid var(--divider-color);
+            color: var(--secondary-main);
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 5px;
+            border-radius: 2px;
+            box-shadow: inset 0 0px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5); /* Sky blue glow */
+            transition: background-color 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+        }
+        body.light-theme .temp-display {
+            box-shadow: inset 0 0px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 0 10px rgba(12, 74, 110, 0.3); /* Darker blue glow for light theme */
+        }
+
+        /* Main Content Grid */
+        .main-content-grid {
+            display: flex;
+            flex-wrap: wrap; /* Allows wrapping on smaller screens */
+            flex-grow: 1;
+        }
+
+        .chart-section, .controls-section {
+            padding: 4px;
+            background-color: var(--background-paper);
+        }
+
+        .chart-section {
+            flex: 2; /* Takes 2/3 width on large screens */
+            min-width: 0; /* Ensures it can shrink */
+            overflow: hidden; /* Prevent content overflow */
+        }
+
+        .controls-section {
+            flex: 1; /* Takes 1/3 width on large screens */
+            border-left: 1px solid var(--divider-color);
+            overflow-y: auto; /* Scroll for controls if needed */
+        }
+        @media (max-width: 1024px) { /* Adjust for smaller screens (lg breakpoint) */
+            .chart-section, .controls-section {
+                flex-basis: 100%; /* Full width */
+                border-left: none;
+                border-top: 1px solid var(--divider-color); /* Top border on smaller screens */
+            }
+        }
+
+        /* Chart Canvas Container */
+        .chart-canvas-container {
+            position: relative;
+            height: 55vh; /* Default height for small screens */
+            background-color: var(--background-default);
+            border-radius: 2px;
+            border: 0px solid var(--divider-color);
+            overflow: hidden;
+            padding: 8px; /* Padding inside the chart container */
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .chart-canvas-container-2 {
+            position: relative;
+            height: 300px; /* Default height for small screens */
+            background-color: var(--background-default);
+            border-radius: 2px;
+            border: 0px solid var(--divider-color);
+            overflow: hidden;
+            padding: 8px; /* Padding inside the chart container */
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        @media (min-width: 600px) { /* sm breakpoint */
+            .chart-canvas-container { height: 60vh; }
+        }
+        @media (min-width: 1024px) { /* lg breakpoint */
+            .chart-canvas-container { height: 65vh; padding: 16px; }
+        }
+
+        .chart-canvas-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+            display: block; /* Ensure canvas takes full space */
+        }
+
+        .chart-info-footer {
+            margin-top: 16px;
+            padding: 12px;
+            background-color: var(--background-paper);
+            border-radius: 2px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--divider-color);
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Control and Settings Sections */
+        .control-group {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            color: var(--primary-main);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            padding: 10px 16px;
+            border-radius: 2px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+            text-transform: none; /* Material-UI default behavior */
+            font-size: 1rem;
+            flex-grow: 1; /* Allow buttons to expand */
+        }
+
+        .button.contained {
+            background-color: var(--primary-main);
+            color: white;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .button.contained:hover:not(:disabled) {
+            background-color: color-mix(in srgb, var(--primary-main) 85%, black); /* Darken on hover */
+            box-shadow: 0 0px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .button.outlined {
+            background-color: transparent;
+            color: var(--primary-main);
+            border: 0px solid var(--primary-main);
+        }
+        .button.outlined:hover:not(:disabled) {
+            background-color: rgba(var(--primary-main-dark), 0.1); /* Light background on hover */
+            color: color-mix(in srgb, var(--primary-main) 85%, black);
+            border-color: color-mix(in srgb, var(--primary-main) 85%, black);
+        }
+        body.light-theme .button.outlined:hover:not(:disabled) {
+            background-color: rgba(var(--primary-main-light), 0.1);
+        }
+
+        .button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .button .material-icons {
+            font-size: 1.25rem;
+        }
+
+        /* Text Field Styles */
+        .text-field {
+            width: 100%;
+            margin-bottom: 16px; /* Added margin for spacing */
+        }
+
+        .text-field label {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            transform-origin: top left;
+            transition: all 0.2s ease;
+        }
+
+        .text-field input {
+            width: calc(100% - 24px); /* Adjust for padding */
+            padding: 12px;
+            border-radius: 2px;
+            border: 0px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            outline: none;
+        }
+
+        .text-field input:focus {
+            border-color: var(--input-focus-border);
+            box-shadow: 0 0 0 2px rgba(var(--input-focus-border-rgb), 0.2); /* Replace with actual RGB if possible */
+        }
+        body.light-theme .text-field input:focus {
+             box-shadow: 0 0 0 2px rgba(12, 74, 110, 0.2);
+        }
+
+        .text-field input:hover:not(:disabled) {
+            border-color: var(--input-hover-border);
+        }
+        
+        .text-field input:disabled {
+            background-color: var(--divider-color);
+            cursor: not-allowed;
+        }
+
+        /* Save Session Toggle Switch */
+        .save-toggle-field {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--background-default);
+            padding: 10px;
+            border-radius: 2px;
+            margin-bottom: 16px;
+        }
+        .save-toggle-field label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--divider-color);
+            transition: .4s;
+            border-radius: 28px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 100%;
+        }
+        input:checked + .toggle-slider {
+            background-color: var(--primary-main);
+        }
+        input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+
+
+        /* Session List */
+        .session-list-container {
+            max-height: 192px;
+            overflow-y: auto;
+            padding: 12px;
+            background-color: var(--background-default);
+            border: 0px solid var(--divider-color);
+            border-radius: 2px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .session-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .session-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            background-color: var(--background-paper);
+            border-radius: 2px;
+            border: 0px solid var(--divider-color);
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .session-list-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .session-list-item-text {
+            flex-grow: 1;
+            color: var(--text-primary);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .session-list-item-text span.id {
+            font-weight: bold;
+            color: var(--primary-light);
+        }
+        .session-list-item-text span.date {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            display: block;
+        }
+
+        .session-item-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .icon-button {
+            background-color: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 4px;
+            border-radius: 20%;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .icon-button .material-icons {
+            font-size: 1.25rem;
+        }
+
+        .icon-button:hover {
+            background-color: var(--divider-color);
+        }
+
+        .icon-button.load-session-btn:hover {
+            color: var(--primary-main);
+        }
+
+        .icon-button.delete-session-btn:hover {
+            color: var(--error-main);
+        }
+
+
+        /* Latest Values and General Info */
+        .info-section h6 {
+            font-size: 1.15rem;
+            color: var(--primary-main);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 8px;
+            font-size: 0.9rem;
+        }
+
+        .info-grid div {
+            color: var(--text-secondary);
+        }
+        .info-grid div:nth-child(even) {
+            text-align: right;
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+        .info-grid div.num-float-val {
+            color: var(--warning-main);
+        }
+
+        .info-divider {
+            border-bottom: 1px solid var(--divider-color);
+            margin: 16px 0;
+        }
+
+        .websocket-info {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-align: center;
+            padding-top: 16px;
+        }
+        .websocket-info code {
+            background-color: var(--background-default);
+            color: var(--text-secondary);
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: var(--modal-bg);
+            border-radius: 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 600px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.open .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--divider-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--primary-main);
+            font-weight: bold;
+        }
+
+        .modal-close-button {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 4px;
+            border-radius: 20%;
+            transition: background-color 0.2s ease;
+        }
+        .modal-close-button:hover {
+            background-color: rgba(var(--text-secondary), 0.1);
+        }
+
+        .modal-body {
+            padding: 16px 24px;
+            overflow-y: auto;
+            max-height: 70vh; /* Limit modal content height */
+            color: var(--text-primary);
+        }
+        .modal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+        .modal-body::-webkit-scrollbar-thumb {
+            background-color: var(--divider-color);
+            border-radius: 2px;
+        }
+
+        .modal-body p {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .modal-body pre {
+            background-color: var(--background-default);
+            padding: 12px;
+            border-radius: 2px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--divider-color);
+            text-align: right;
+        }
+
+        .modal-footer button {
+            background-color: var(--primary-main);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .modal-footer button:hover {
+            background-color: color-mix(in srgb, var(--primary-main) 85%, black);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Utility classes for consistency */
+        .flex { display: flex; }
+        .justify-center { justify-content: center; }
+        .items-center { align-items: center; }
+        .p-4 { padding: 16px; }
+        .text-center { text-align: center; }
+        .mt-2 { margin-top: 8px; }
+        .text-red-500 { color: var(--error-main); }
+        .w-full { width: 100%; }
+        .font-sans { font-family: 'Inter', sans-serif; }
+        .whitespace-pre-wrap { white-space: pre-wrap; }
+    </style>
+</head>
+<body class="dark-theme">
+    <div class="app-container">
+        <header class="app-bar">
+            <h1>Tostaneitor 3000</h1>
+            <div class="app-bar-actions">
+                <button class="theme-toggle-button" id="theme-toggle">
+                    <span class="material-icons">light_mode</span>
+                </button>
+                <div class="status-chip" id="status-message" data-cur-type="info">Iniciando...</div>
+            </div>
+        </header>
+
+       
+
+        <div class="main-content-grid">
+            <div class="chart-section">
+                <div class="chart-canvas-container">
+                    <canvas id="data-chart"></canvas>
+                </div>
+                <!-- Container for event buttons -->
+                <div class="chart-info-footer flex flex-col justify-center items-center flex-wrap gap-4">
+                    <!-- <h2 class="section-title text-center mb-4">Controles de Tostado Rápido</h2> -->
+                    <div class="button-group">
+                        <button class="button contained" id="loaded-btn">
+                            <span class="material-icons">download</span> Cargado
+                        </button>
+                        <button class="button contained" id="unloaded-btn">
+                            <span class="material-icons">upload</span> Descargado
+                        </button>
+                        <button class="button contained" id="gas-on-btn">
+                            <span class="material-icons">local_fire_department</span> Gas Encendido
+                        </button>
+                        <button class="button contained" id="more-gas-btn">
+                            <span class="material-icons">arrow_circle_up</span> Más Gas
+                        </button>
+                        <button class="button contained" id="less-gas-btn">
+                            <span class="material-icons">arrow_circle_down</span> Menos Gas
+                        </button>
+                        <button class="button contained" id="gas-off-btn">
+                            <span class="material-icons">power_off</span> Gas Apagado
+                        </button>
+                        <button class="button contained" id="extractor-on-btn">
+                            <span class="material-icons">tune</span> Extractor On
+                        </button>
+                        <button class="button contained" id="extractor-off-btn">
+                            <span class="material-icons">settings_backup_restore</span> Extractor Apagado
+                        </button>
+                    </div>
+                </div>
+                
+                
+            </div>
+
+            <div class="controls-section">
+                <div class="control-group">
+                    <div class="temp-display-wrapper">
+                        <div class="temp-display" id="current-large-temp">0.00°C</div>
+                        <div class="delta-display" id="current-large-delta">Δ 0.00°C</div>
+                    </div>
+
+                    <div class="chart-canvas-container-2" >
+                        <canvas id="indicator-canvas"></canvas>
+                    </div>
+
+                    <h2 class="section-title">Controles</h2>
+                    <div class="text-field">
+                        <label for="session-name-input">Nombre de la Sesión (opcional)</label>
+                        <input type="text" id="session-name-input" placeholder="Ej: Tueste Kenia AA" maxlength="50">
+                    </div>
+                    
+                    <div class="save-toggle-field">
+                        <label for="save-session-toggle">Guardar Sesión</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="save-session-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="button contained" id="start-plotting-btn">
+                            <span class="material-icons">play_arrow</span> Iniciar Gráficado
+                        </button>
+                        <button class="button contained" id="stop-plotting-btn" disabled>
+                            <span class="material-icons">pause</span> Detener Gráficado
+                        </button>
+                    </div>
+                    <button class="button outlined w-full" id="reset-chart-btn">
+                        <span class="material-icons">refresh</span> Reiniciar Datos (En vivo)
+                    </button>
+                </div>
+
+                <div class="control-group">
+                    <h2 class="section-title">Configuración del Gráfico</h2>
+                    <div class="text-field">
+                        <label for="minutes-input">Duración del Gráfico (minutos)</label>
+                        <input type="number" id="minutes-input" value="40">
+                    </div>
+                    <div class="text-field">
+                        <label for="data-millis-input">Intervalo de Datos (ms)</label>
+                        <input type="number" id="data-millis-input" value="1000">
+                    </div>
+                    <button class="button contained w-full" id="apply-settings-btn">
+                        <span class="material-icons">settings</span> Aplicar Configuración
+                    </button>
+                </div>
+
+                <div class="control-group">
+                    <h2 class="section-title">Sesiones Anteriores</h2>
+                    <div class="session-list-container">
+                        <ul class="session-list" id="session-list">
+                            <!-- Sesiones se cargarán aquí por JS -->
+                        </ul>
+                    </div>
+                     <button class="button outlined w-full mt-2" id="unload-session-btn" style="display: none;">
+                        <span class="material-icons">layers_clear</span> Descargar Sesión del Gráfico
+                    </button>
+                </div>
+
+                <div class="control-group">
+                    <button class="button contained w-full" id="optimize-profile-btn" style="padding: 12px; font-size: 1.1rem;">
+                        <span class="material-icons">lightbulb</span> Optimizar Perfil ✨
+                    </button>
+                </div>
+
+                <div class="control-group info-section">
+                    <h2 class="section-title">Últimos Valores Recibidos</h2>
+                    <div class="info-grid">
+                        <div>Valor Entero (numInt):</div>
+                        <div id="last-int-val">N/A</div>
+                        <div>Valor Flotante (numFloat):</div>
+                        <div id="last-float-val" class="num-float-val">N/A</div>
+                    </div>
+                </div>
+
+                <div class="info-divider"></div>
+
+                <div class="control-group info-section">
+                    <h2 class="section-title">Información General</h2>
+                    <div class="info-grid">
+                        <div>ID Sesión:</div>
+                        <div id="roast-session_id"></div>
+                        <div>Nombre:</div>
+                        <div id="roast-session_name"></div>
+                        <div>Fecha:</div>
+                        <div id="roast-date"></div>
+                        <!-- <div>Fuente de Datos:</div>
+                        <div>Sensor Principal</div>-->
+                    </div>
+                </div>
+                <p class="websocket-info">
+                    Conectando a: <code id="host-conn" style="background-color: var(--background-default); color: var(--text-secondary); padding: 2px 4px; border-radius: 2px;"></code>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para el análisis de Gemini -->
+    <div class="modal-overlay" id="optimization-modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title"></h2>
+                <button class="modal-close-button" id="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-content"></div>
+            <div class="modal-footer">
+                <button id="modal-confirm-btn">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // DOM Elements
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const statusMessageEl = document.getElementById('status-message');
+        const currentLargeTempEl = document.getElementById('current-large-temp');
+        const currentLargeDelta = document.getElementById('current-large-delta');
+        const startPlottingBtn = document.getElementById('start-plotting-btn');
+        const stopPlottingBtn = document.getElementById('stop-plotting-btn');
+        const resetChartBtn = document.getElementById('reset-chart-btn');
+        const minutesInput = document.getElementById('minutes-input');
+        const dataMillisInput = document.getElementById('data-millis-input');
+        const applySettingsBtn = document.getElementById('apply-settings-btn');
+        const sessionListEl = document.getElementById('session-list');
+        const optimizeProfileBtn = document.getElementById('optimize-profile-btn');
+        const lastIntValEl = document.getElementById('last-int-val');
+        const lastFloatValEl = document.getElementById('last-float-val');
+        const roastIdEl = document.getElementById('roast-session_id');
+        const roastNameEl = document.getElementById('roast-session_name');
+        const roastDateEl = document.getElementById('roast-date');
+        const chartCanvas = document.getElementById('data-chart');
+        const indicatorCanvas = document.getElementById('indicator-canvas');
+        const unloadSessionBtn = document.getElementById('unload-session-btn');
+        const sessionNameInput = document.getElementById('session-name-input');
+        const saveSessionToggle = document.getElementById('save-session-toggle');
+        const hostConnEle = document.getElementById("host-conn");
+
+
+        // Modal Elements
+        const modalOverlay = document.getElementById('optimization-modal-overlay');
+        const modalTitleEl = document.getElementById('modal-title');
+        const modalContentEl = document.getElementById('modal-content');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const modalConfirmBtn = document.getElementById('modal-confirm-btn');
+
+        // New button elements
+        const loadedBtn = document.getElementById('loaded-btn');
+        const unloadedBtn = document.getElementById('unloaded-btn');
+        const moreGasBtn = document.getElementById('more-gas-btn');
+        const lessGasBtn = document.getElementById('less-gas-btn');
+        const gasOffBtn = document.getElementById('gas-off-btn'); // Nuevo botón de gas apagado
+        const extractorOnBtn = document.getElementById('extractor-on-btn'); // Nuevo botón de extractor
+        const extractorOffBtn = document.getElementById('extractor-off-btn'); // Nuevo botón de extractor apagado
+        const gasOnBtn = document.getElementById('gas-on-btn'); // Nuevo botón de gas encendido
+
+
+        // Global State Variables
+        let host = "127.0.0.1"
+        let websocket = null;
+        let dataChart = null;
+        let currentIndex = 0;
+        let isPlottingActive = false;
+        let minutes = parseInt(minutesInput.value);
+        let dataMillis = parseInt(dataMillisInput.value);
+        let dataRate = 60 * (1000 / dataMillis);
+        let allRoastSessions = [];
+        let activeSession = null;
+        let loadedSessionId = null;
+        let currentTheme = localStorage.getItem('theme') || 'dark';
+        let sessionMarkers = [];
+        let loadedSessionMarkers = [];
+
+        // --- Utility Functions ---
+
+        // Generate UUID
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0,
+                    v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        // Update Status Message
+        function updateStatus(message, type = 'info',set_current = false) {
+            var current_message = statusMessageEl.textContent; 
+            var current_message_type = statusMessageEl.dataset.cur_type;
+
+            var current = {message:current_message,type:current_message_type}
+
+            
+
+            statusMessageEl.textContent = message;
+            statusMessageEl.className = 'status-chip'; // Reset classes
+            statusMessageEl.dataset.cur_type=type;
+            if (type === 'success') {
+                statusMessageEl.classList.add('success');
+            } else if (type === 'error') {
+                statusMessageEl.classList.add('error');
+            }
+
+            if (set_current){
+                setTimeout(()=>{
+                    updateStatus(current.message,current.type,false);
+                },3000)
+            }
+
+        }
+
+        // Generate Time Labels for X-axis
+        function generateTimeLabels() {
+            const _labels = [];
+            for (let i = 0; i < minutes * dataRate; i++) {
+                const totalSeconds = Math.floor(i / dataRate * 60);
+                const displayMinutes = Math.floor(totalSeconds / 60);
+                const displaySeconds = totalSeconds % 60;
+                const formattedTime = `${String(displayMinutes).padStart(2, '0')}:${String(displaySeconds).padStart(2, '0')}`;
+                _labels.push(formattedTime);
+            }
+            return _labels;
+        }
+
+        // Get CSS variable color
+        function getCssVar(name) {
+            return getComputedStyle(document.body).getPropertyValue(name).trim();
+        }
+
+        // Plugin for Chart.js to draw bands, titles, and markers for both live and loaded sessions
+        const line_p = {
+            id: "line_p",
+            beforeDraw(chart, args, options) {
+                const { ctx, chartArea: { left, top, width, height, right, bottom }, scales: { x, y } } = chart;
+                ctx.save();
+                
+                const isDark = document.body.classList.contains('dark-theme');
+                const bandColor = (r, g, b, a) => `rgba(${r}, ${g}, ${b}, ${a})`;
+                const bandAlpha = 0.1;
+                
+                ctx.strokeStyle = isDark ? `rgba(255, 255, 255, 0.1)` : `rgba(0, 0, 0, 0.1)`;
+                ctx.lineWidth = 1;
+                ctx.setLineDash([2, 2]);
+                ctx.fillStyle = isDark ? 'rgba(229, 231, 235, 0.5)' : 'rgba(31, 41, 55, 0.5)';
+                ctx.font = 'bold 10px Inter, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+
+                const bandsData = [
+                    { name: 'Fin Secado (Tiempo)', type: 'time', start: 4.5, end: 6, color: [250, 170, 160], textYOffset: 15 },
+                    { name: 'Fin Secado (Temp)', type: 'temperature', start: 150, end: 160, color: [230, 50, 50], textYOffset: -5 },
+                    { name: '1er Crack (Tiempo)', type: 'time', start: 8.5, end: 9.5, color: [100, 100, 200], textYOffset: 30 },
+                    { name: '1er Crack (Temp)', type: 'temperature', start: 195, end: 200, color: [230, 50, 50], textYOffset: -5 },
+                    { name: 'Fase Final (Tiempo)', type: 'time', start: 10, end: 12, color: [100, 240, 50], textYOffset: 45 },
+                    { name: 'Final Suave (Temp)', type: 'temperature', start: 204, end: 206, color: [10, 200, 140], textYOffset: -5 },
+                    { name: 'Final Fuerte (Temp)', type: 'temperature', start: 210, end: 215, color: [10, 200, 140], textYOffset: -5 },
+                    { name: 'Amarillear', type: 'time', start: 6, end: 8.5, color: [255, 255, 0], textYOffset: 60 },
+                ];
+
+                var event_loaded = options.liveMarkers.filter(x=>x.type=="loaded");
+
+                if (event_loaded.length > 0){
+                    //var chartIndex = event_loaded[0].chartIndex;
+
+                    var offset = x.getPixelForValue(event_loaded[event_loaded.length-1].chartIndex);
+
+                    bandsData.forEach(band => {
+                        ctx.fillStyle = bandColor(band.color[0], band.color[1], band.color[2], bandAlpha);
+                        ctx.beginPath();
+                        if (band.type === 'time') {
+                            const startX = offset + x.getPixelForValue((band.start) * dataRate);
+                            const endX = offset + x.getPixelForValue((band.end) * dataRate);
+                            ctx.rect(startX, top, endX - startX, height);
+                            ctx.fill(); ctx.stroke();
+                            ctx.fillText(band.name, (startX + endX) / 2, top + band.textYOffset);
+                        } else if (band.type === 'temperature') {
+                            const startY = y.getPixelForValue(band.end);
+                            const endY = y.getPixelForValue(band.start);
+                            ctx.rect(left, startY, width, endY - startY);
+                            ctx.fill(); ctx.stroke();
+                            ctx.fillText(band.name, left + width / 2, startY + band.textYOffset);
+                        }
+                    });
+                }
+
+                // Function to draw markers
+                const drawMarkers = (markers, color, prefix = '') => {
+                    ctx.setLineDash([]);
+                    ctx.strokeStyle = color;
+                    ctx.fillStyle = color;
+                    ctx.lineWidth = 1.5;
+                    ctx.font = 'bold 9px Inter, sans-serif';
+                    ctx.textAlign = 'left';
+
+                    markers.forEach(marker => {
+                        const markerX = x.getPixelForValue(marker.chartIndex);
+                        if (markerX >= left && markerX <= right) {
+                            ctx.beginPath(); ctx.moveTo(markerX, top); ctx.lineTo(markerX, bottom); ctx.stroke();
+                           // ctx.beginPath(); ctx.arc(markerX, top + 5, 3, 0, Math.PI * 2); ctx.fill();
+                            ctx.beginPath(); ctx.arc(markerX, bottom - 5, 3, 0, Math.PI * 2); ctx.fill();
+                            
+                            let labelText = '';
+                            switch (marker.type) {
+                                case 'loaded': labelText = 'Cargado'; break;
+                                case 'unloaded': labelText = 'Descargado'; break;
+                                case 'gas_on': labelText = 'Gas On'; break; // Nuevo label para el evento
+                                case 'more_gas': labelText = '+Gas'; break;
+                                case 'less_gas': labelText = '-Gas'; break;
+                                case 'gas_off': labelText = 'Gas Off'; break;
+                                case 'extractor_on': labelText = 'Extractor On'; break;
+                                case 'extractor_off': labelText = 'Extractor Off'; break;
+                                default: labelText = marker.type;
+                            }
+                            //ctx.fillText(prefix + labelText, markerX, top + 15);
+                            ctx.save();
+                            ctx.translate(markerX + 5, top + 15);
+                            ctx.rotate(Math.PI / 4);
+                            ctx.textAlign = 'left';
+                            ctx.fillText(prefix + labelText, 0, 0);
+                            ctx.restore();
+                        }
+                    });
+                };
+                
+                // Draw markers for live and loaded sessions with different colors
+                const liveMarkerColor = isDark ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)';
+                const loadedMarkerColor = 'rgba(239, 68, 68, 0.8)'; // Red for loaded markers
+                drawMarkers(options.loadedMarkers || [], loadedMarkerColor, 'Cargado: ');
+                drawMarkers(options.liveMarkers || [], liveMarkerColor);
+
+
+                ctx.restore();
+            }
+        };
+
+
+        function calcularPendienteRegresionLineal(data, xKey, yKey) {
+          if (!data || data.length < 2) {
+            console.error("Se necesitan al menos dos puntos para calcular la pendiente.");
+            return 0;
+          }
+
+          let n = data.length;
+          let sumXY = 0;
+          let sumX = 0;
+          let sumY = 0;
+          let sumX2 = 0;
+
+          for (let i = 0; i < n; i++) {
+            const x = data[i][xKey];
+            const y = data[i][yKey];
+
+            if (typeof x !== 'number' || typeof y !== 'number') {
+              console.error(`Error: Los valores de ${xKey} o ${yKey} no son numéricos en el punto ${i}.`);
+              return 0;
+            }
+
+            sumXY += x * y;
+            sumX += x;
+            sumY += y;
+            sumX2 += x * x;
+          }
+
+          const numerador = (n * sumXY) - (sumX * sumY);
+          const denominador = (n * sumX2) - (sumX * sumX);
+
+          if (denominador === 0) {
+            console.warn("El denominador es cero, la pendiente es indefinida (todos los valores de X son iguales).");
+            return Infinity;
+          }
+
+          const pendiente = numerador / denominador;
+          return pendiente;
+        }
+        var n = 0;
+     
+
+        function addDataToIndicatorChart(temp,update ){
+            if (indicator){
+                //console.log(temp)
+                indicator.data.datasets[0].data.push(temp)
+                
+                if(indicator.data.datasets[0].data.length > 5 * 60){
+                    indicator.data.datasets[0].data.shift() //temp
+                    indicator.data.datasets[1].data.shift() //avg
+                    indicator.data.datasets[2].data.shift() //delta
+                    indicator.data.datasets[3].data.shift() //pendiente
+                    indicator.data.datasets[4].data.shift() //pendiente 1m
+                    indicator.data.labels.shift()
+                }
+                var second = 0;
+                var short = indicator.data.datasets[0].data; 
+                var data_maped =  short.map((temp)=>{return {second:second++,temp}})
+                var pendiente = 
+                calcularPendienteRegresionLineal(data_maped.slice(data_maped.length-2,data_maped.length),"second","temp")
+
+                var pendiente_1m = 
+                calcularPendienteRegresionLineal(data_maped.slice(data_maped.length-60,data_maped.length),"second","temp")
+
+                //console.log(pendiente)
+                indicator.data.datasets[3].data.push(pendiente)
+                indicator.data.datasets[4].data.push(pendiente_1m)
+
+                
+                var a = indicator.data.datasets[0].data;
+                var last_index = indicator.data.datasets[0].data.length-1;
+                var win = 30; // 1 minuto
+                var avg = a.slice(a.length-win,a.length).reduce((ac,x)=>ac+x,0) / win;
+                
+                if(a.length<=win){
+                    indicator.data.datasets[1].data.push(temp)
+                    indicator.data.datasets[2].data.push(0)
+                    updateLargeDeltaDisplay(0,pendiente,pendiente_1m)
+
+                }else{
+                    indicator.data.datasets[1].data.push(avg)
+                    indicator.data.datasets[2].data.push((temp-avg))
+                    updateLargeDeltaDisplay(temp-avg,pendiente,pendiente_1m)
+                }
+
+
+
+                const totalSeconds = Math.floor(n / dataRate * 60);
+                const displayMinutes = Math.floor(totalSeconds / 60);
+                const displaySeconds = totalSeconds % 60;
+                const formattedTime = `${String(displayMinutes).padStart(2, '0')}:${String(displaySeconds).padStart(2, '0')}`;
+
+                indicator.data.labels.push(formattedTime)
+                n++;
+
+
+                //indicator.data.datasets[0].label.push(temp)
+                if (update){
+                	indicator.update("none"); 
+
+                }
+
+            }
+        }
+        var indicator = null;
+        function initializeIndicatorChart(){
+            indicator = new Chart(indicatorCanvas, {
+                type: 'line',
+
+                data: {
+                  
+                  labels:[],
+                  datasets: [{
+                    label: 'Grados Selsius',
+                    data: [],
+                    tension: 0.1,
+                    fill: false,
+                    pointRadius: 0,
+                    borderWidth: 3,
+                  },
+                  {
+                    label:"avg",
+                    data: [],
+                    tension: 0.1,
+                    fill: false,
+                    pointRadius: 1,
+                    borderWidth: 1.2,
+                  },
+                  {
+                    label:"delta",
+                    data: [],
+                    tension: 0.1,
+                    fill: false,
+                    pointRadius: 0,
+                    borderWidth: 1.2,
+                  },
+                  {
+
+                    label:"pendiente",
+                    data: [],
+                    tension: 0.1,
+                    fill: false,
+                    pointRadius: 0,
+                    borderWidth: 1,
+                  },
+                  {
+                    label:"pendiente 1m",
+                    data: [],
+                    tension: 0.1,
+                    fill: false,
+                    pointRadius: 0,
+                    borderWidth: 2,
+                  },
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                  scales: {
+                    x: {
+                            type: 'category',
+                            title: { display: false, text: 'Tiempo (MM:SS)', color: getCssVar('--text-primary'), font: { size: 12 } },
+                            ticks: { color: getCssVar('--text-primary'), maxRotation: 45, autoSkip: true, maxTicksLimit: 15, font: { size: 10 } },
+                            grid: { color: getCssVar('--divider-color'), drawBorder: false },
+                        },
+                        y: {
+                            title: { display: false, text: 'Temperatura', color: getCssVar('--text-primary'), font: { size: 12 } },
+                            ticks: { color: getCssVar('--text-primary'), font: { size: 10 } },
+                            grid: { color: getCssVar('--divider-color'), drawBorder: false },
+                        },
+                  },
+                  plugins: {
+                        legend: { display: true, position: 'top', labels: { color: getCssVar('--text-primary'), font: { size: 11 } } },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: currentTheme === 'light' ? 'rgba(249, 250, 251, 0.9)' : 'rgba(31, 41, 55, 0.9)',
+                            titleColor: currentTheme === 'light' ? '#6b7280' : '#9ca3af',
+                            bodyColor: getCssVar('--text-primary'),
+                            borderColor: currentTheme === 'light' ? '#d1d5db' : '#4b5563',
+                            borderWidth: 1,
+                            padding: 10,
+                            callbacks: {
+                                title: (tooltipItems) => 'Tiempo: ' + tooltipItems[0].label,
+                                label: (context) => `${context.dataset.label}: ${context.parsed.y.toFixed(2)}`,
+                            },
+                        },
+                        
+                    },
+                },
+
+              });
+        }
+        // Initialize Chart.js
+        function initializeChart() {
+            if (dataChart) {
+                dataChart.destroy();
+            }
+
+            sessionMarkers = [];
+            loadedSessionMarkers = [];
+
+            dataChart = new Chart(chartCanvas, {
+                type: 'line',
+                data: {
+                    labels: generateTimeLabels(),
+                    datasets: [
+                        {
+                            label: 'Grados Selsius',
+                            data: [],//Array(minutes * dataRate).fill(null),
+                            borderColor: getCssVar('--chart-int-color'),
+                            backgroundColor: getCssVar('--chart-int-bg-color'),
+                            tension: 0.1,
+                            fill: false,
+                            pointRadius: 0,
+                            borderWidth: 1.2,
+                        },
+                        {
+                            label: '.',
+                            data: Array(minutes * dataRate).fill(null),
+                            borderColor: getCssVar('--chart-int-color'),
+                            backgroundColor: getCssVar('--chart-int-bg-color'),
+                            tension: 0.1,
+                            fill: false,
+                            pointRadius: 0,
+                            borderWidth: 1.2,
+                        },
+                        // Removed: Valor Flotante (En vivo)
+                        {
+                            label: 'Grados Selsius (Cargado)',
+                            data: Array(minutes * dataRate).fill(null),
+                            borderColor: getCssVar('--chart-loaded-int-color'),
+                            borderWidth: 1.5,
+                            pointRadius: 0,
+                            fill: false,
+                            borderDash: [5, 2], // Dashed line
+                        },
+                        // Removed: Flotante (Cargado)
+                    ],
+                },
+                plugins: [line_p],
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'category',
+                            title: { display: true, text: 'Tiempo (MM:SS)', color: getCssVar('--text-primary'), font: { size: 12 } },
+                            ticks: { color: getCssVar('--text-primary'), maxRotation: 45, autoSkip: true, maxTicksLimit: 15, font: { size: 10 } },
+                            grid: { color: getCssVar('--divider-color'), drawBorder: false },
+                        },
+                        y: {
+                            title: { display: true, text: 'Temperatura', color: getCssVar('--text-primary'), font: { size: 12 } },
+                            ticks: { color: getCssVar('--text-primary'), font: { size: 10 } },
+                            grid: { color: getCssVar('--divider-color'), drawBorder: false },
+                        },
+                    },
+                    plugins: {
+                        legend: { display: true, position: 'top', labels: { color: getCssVar('--text-primary'), font: { size: 11 } } },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: currentTheme === 'light' ? 'rgba(249, 250, 251, 0.9)' : 'rgba(31, 41, 55, 0.9)',
+                            titleColor: currentTheme === 'light' ? '#6b7280' : '#9ca3af',
+                            bodyColor: getCssVar('--text-primary'),
+                            borderColor: currentTheme === 'light' ? '#d1d5db' : '#4b5563',
+                            borderWidth: 1,
+                            padding: 10,
+                            callbacks: {
+                                title: (tooltipItems) => 'Tiempo: ' + tooltipItems[0].label,
+                                label: (context) => `${context.dataset.label}: ${context.parsed.y.toFixed(2)}`,
+                            },
+                        },
+                        line_p: {
+                            // Pass both marker arrays to the plugin
+                            liveMarkers: sessionMarkers,
+                            loadedMarkers: loadedSessionMarkers
+                        },
+                    },
+                    animation: { duration: 500 },
+                },
+            });
+
+           
+
+            dataChart.data.datasets[1].data.push(0)
+            dataChart.data.datasets[1].data.push(250)
+        }
+
+
+        function addDataToChart(intVal, floatVal,update=true) {
+            if (!dataChart) return;
+            
+            // Only update live integer dataset (index 0)
+            dataChart.data.datasets[0].data[currentIndex] = intVal ;
+
+            if (isPlottingActive && activeSession) {
+                // Always add all data to the in-memory active session object (int and float)
+                activeSession.data.push({
+                    tiempo: dataChart.data.labels[currentIndex],
+                    temperaturaInt: intVal,
+                    //temperaturaFloat: floatVal, // Keep storing float for potential future use/analysis
+                });
+                
+                // If the session is marked for saving, persist the changes to localStorage
+                if (activeSession.shouldSave) {
+                   // saveRoastSessions();
+                }
+            }
+           
+            currentIndex++;
+            if (update){dataChart.update('none');} 
+
+            lastIntValEl.textContent = intVal.toFixed(2);
+            lastFloatValEl.textContent = floatVal.toFixed(2); // Still display float value in the info section
+        }
+
+        // Update Large Temperature Display
+        function updateLargeTemperatureDisplay(tempVal) {
+            currentLargeTempEl.textContent = `${tempVal.toFixed(2)}°C`;
+        }
+        function updateLargeDeltaDisplay(deltaVal,pendienteVAl,pendiente_1m_VAl) {
+            var d = deltaVal.toFixed(2);
+            var por_s = ((d*2)/60)*6
+            //currentLargeDelta.textContent = `delta ${d}°C. ${por_s.toFixed(2)}°C x segundo`;
+            currentLargeDelta.textContent = `Δ ${d}°C. p 1s ${pendienteVAl.toFixed(2)}°C. p 1m ${pendiente_1m_VAl.toFixed(2)}°C`;
+        }
+
+        // --- WebSocket Functions ---
+        function initializeWebSocketConnection() {
+            if (websocket && (websocket.readyState === WebSocket.OPEN || websocket.readyState === WebSocket.CONNECTING)) {
+                return;
+            }
+            updateStatus('Conectando al WebSocket...', 'info');
+            websocket = new WebSocket('ws://'+host+':8080/temp');
+            window.w = websocket
+            websocket.onopen = () => {
+                updateStatus('Conectado. Presiona "Iniciar Gráficado".', 'success');
+                startPlottingBtn.disabled = false;
+                stopPlottingBtn.disabled = true;
+                console.log('WebSocket abierto: stopPlottingBtn.disabled = true');
+
+                hostConnEle.textContent = websocket.url;
+
+
+                websocket.send(JSON.stringify({cmd:"get"}))
+            };
+
+            websocket.onmessage = (event) => {
+                try {
+
+                    const jsonData = JSON.parse(event.data);
+
+                    if (jsonData.type == "start_response"){
+                        //alert(jsonData.session_name)
+                        activeSession.id = jsonData.session_id;
+                        activeSession.name = jsonData.session_name;
+
+
+                        const today = new Date();
+                        roastDateEl.textContent = today.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric',hour: '2-digit', minute: '2-digit', second: 'numeric' });
+                        roastIdEl.textContent = activeSession.id
+                        roastNameEl.textContent = activeSession.name
+                    }
+                    if (jsonData.type == "temp"){
+
+	                    const numInt = parseFloat(jsonData.temp);
+	                    const numFloat = parseFloat(jsonData.numFloat) || 0;
+	                    if (isNaN(numInt)) return;
+	                    updateLargeTemperatureDisplay(numInt);
+	                    addDataToIndicatorChart(numInt,true)
+	                    if (isPlottingActive && currentIndex < minutes * dataRate) {
+	                        // Pass both values to addDataToChart, even if float is not plotted
+	                        addDataToChart(numInt, numFloat);
+	                    }
+                    }
+
+                     if (jsonData.type == "get_response"){
+                     	 if (!jsonData.error){
+                     	 	 if (jsonData.has_session){
+                     	 	 	console.warn(jsonData)
+                     	 	 	startFromContinueSessionServerPlotting({
+                     	 	 		session_name:jsonData.session_name,
+                     	 	 		session_id  :jsonData.session_id,
+                                    create_at   :jsonData.session_created_at,
+                     	 	 	})
+
+                     	 	 	jsonData.temps
+                     	 	 		//.map(x=>parseFloat(x))
+                     	 	 		.forEach((temp)=>{
+	                     	 	 		dataChart.data.datasets[0].data[currentIndex] = temp.temp;
+										currentIndex++;
+										//addDataToChart(parseFloat(temp),0,0,false);
+										addDataToIndicatorChart(temp.temp,false)
+	                     	 	 	});
+
+                                var marks = jsonData.marks.map(x=>{
+
+                                    return {
+                                        type:x.mark_name,
+                                        timestamp: new Date().toISOString(),
+                                        chartIndex: x.create_at
+                                    }
+                                })
+
+                                dataChart.options.plugins.line_p.liveMarkers = marks;
+
+								dataChart.update('none'); 
+								indicator.update("none");
+
+                     	 	 }
+
+                     	 }else{ //tiene error
+                     	 	if (jsonData.has_session == false){ //el error es por no tener sesison
+                     	 		resetChartData()
+                     	 	}
+                     	 }
+                     } 
+                } catch (error) {
+                    console.error('Error procesando JSON:', error);
+                }
+            };
+
+            websocket.onerror = (event) => {
+                updateStatus('Error de WebSocket. Reconectando...', 'error');
+                isPlottingActive = false;
+                startPlottingBtn.disabled = true;
+                stopPlottingBtn.disabled = true;
+                console.log('WebSocket error: stopPlottingBtn.disabled = true');
+                setTimeout(initializeWebSocketConnection, 5000);
+            };
+
+            websocket.onclose = () => {
+                updateStatus('Desconectado. Reconectando...', 'error');
+                isPlottingActive = false;
+                startPlottingBtn.disabled = true;
+                stopPlottingBtn.disabled = true;
+                console.log('WebSocket cerrado: stopPlottingBtn.disabled = true');
+                websocket = null;
+                setTimeout(initializeWebSocketConnection, 5000);
+            };
+        }
+
+        function startFromContinueSessionServerPlotting(session_info){
+        	if (websocket && websocket.readyState === WebSocket.OPEN) {
+                if (activeSession && activeSession.status === 'active') return;
+
+                const sessionName = session_info.session_name
+                const shouldSaveSession = true
+
+                activeSession = {
+                    id: session_info.session_id,
+                    name: sessionName,
+                    shouldSave: shouldSaveSession,
+                    startTime: session_info.create_at,
+                    settings: { minutes: minutes, data_millis: dataMillis },
+                    data: [],
+                    markers: [],
+                    status: 'active',
+                };
+                
+                sessionMarkers = activeSession.markers;
+                dataChart.options.plugins.line_p.liveMarkers = sessionMarkers;
+                
+                
+
+                isPlottingActive = true;
+                startPlottingBtn.disabled = true;
+                stopPlottingBtn.disabled = false; // <<< Se activa el botón de detener aquí
+                console.log('Iniciando gráficado: stopPlottingBtn.disabled = false');
+                sessionNameInput.disabled = true;
+                saveSessionToggle.disabled = true;
+                updateStatus(`Iniciando sesión: "${activeSession.name}"`, 'success');
+
+
+                const today = new Date(activeSession.startTime);
+                roastDateEl.textContent = today.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric',hour: '2-digit', minute: '2-digit', second: 'numeric' });
+                roastIdEl.textContent = activeSession.id
+                roastNameEl.textContent = activeSession.name
+
+
+            } else {
+                updateStatus('WebSocket no conectado.', 'error');
+            }
+        }
+
+        // --- Plotting Control Functions ---
+        function startPlotting() {
+            if (websocket && websocket.readyState === WebSocket.OPEN) {
+                if (activeSession && activeSession.status === 'active') return;
+
+                const sessionName = sessionNameInput.value.trim() || `Sesión del ${new Date().toLocaleString('es-ES')}`;
+                const shouldSaveSession = saveSessionToggle.checked;
+
+                activeSession = {
+                    //id: generateUUID(),
+                    name: sessionName,
+                    shouldSave: shouldSaveSession,
+                    startTime: new Date().toISOString(),
+                    settings: { minutes: minutes, data_millis: dataMillis },
+                    data: [],
+                    markers: [],
+                    status: 'active',
+                };
+                
+                sessionMarkers = activeSession.markers;
+                dataChart.options.plugins.line_p.liveMarkers = sessionMarkers;
+                
+                if (shouldSaveSession) {
+                    //allRoastSessions.push(activeSession);
+                    //saveRoastSessions(); // Save the initial session object
+                    renderSessionList();
+
+                    websocket.send(JSON.stringify({cmd:"start",session_name:sessionName}))
+                }
+
+                isPlottingActive = true;
+                startPlottingBtn.disabled = true;
+                stopPlottingBtn.disabled = false; // <<< Se activa el botón de detener aquí
+                console.log('Iniciando gráficado: stopPlottingBtn.disabled = false');
+                sessionNameInput.disabled = true;
+                saveSessionToggle.disabled = true;
+                updateStatus(`Iniciando sesión: "${activeSession.name}"`, 'success');
+
+
+
+
+            } else {
+                updateStatus('WebSocket no conectado.', 'error');
+            }
+        }
+
+        function stopPlotting() {
+            isPlottingActive = false;
+            updateStatus('Gráficado detenido', 'info');
+            
+            startPlottingBtn.disabled = false;
+            stopPlottingBtn.disabled = true; // <<< Se desactiva el botón de detener aquí
+            console.log('Deteniendo gráficado: stopPlottingBtn.disabled = true');
+            sessionNameInput.disabled = false;
+            saveSessionToggle.disabled = false;
+            sessionNameInput.value = '';
+
+
+            roastDateEl.textContent = ""
+            roastIdEl.textContent = ""
+            roastNameEl.textContent = ""
+
+
+            //websocket.send(JSON.stringify({cmd:"stop"}))
+            if (activeSession) {
+                activeSession.endTime = new Date().toISOString();
+                activeSession.status = 'completed';
+                if (activeSession.shouldSave) {
+                    //saveRoastSessions(); // Save the final state
+                    loadRoastSessions();
+                    renderSessionList();
+                   
+                    websocket.send(JSON.stringify({cmd:"stop"}))
+
+
+                } else {
+                    
+                }
+                activeSession = null;
+            }
+        }
+
+        function resetChartData() {
+            if (isPlottingActive) {
+                stopPlotting();
+            }
+            currentIndex = 0;
+            if (dataChart) {
+                // Only clear live integer dataset (index 0)
+                dataChart.data.datasets[0].data.fill(null);
+                sessionMarkers.length = 0; // Clear only live markers
+                dataChart.options.plugins.line_p.liveMarkers = sessionMarkers;
+                dataChart.update('none');
+            }
+            lastIntValEl.textContent = 'N/A';
+            lastFloatValEl.textContent = 'N/A';
+            updateLargeTemperatureDisplay(0);
+            activeSession = null;
+            sessionNameInput.disabled = false; // Ensure it's enabled
+            sessionNameInput.value = '';       // And cleared
+            saveSessionToggle.disabled = false;
+            updateStatus('Datos en vivo reiniciados.', 'info');
+        }
+
+
+        // Apply Chart Settings
+        function applyChartSettings() {
+            const newMinutes = parseInt(minutesInput.value);
+            const newDataMillis = parseInt(dataMillisInput.value);
+            if (isNaN(newMinutes) || newMinutes <= 0 || isNaN(newDataMillis) || newDataMillis < 100) {
+                updateStatus('Valores de configuración inválidos.', 'error');
+                return;
+            }
+            minutes = newMinutes;
+            dataMillis = newDataMillis;
+            dataRate = 60 * (1000 / dataMillis);
+            stopPlotting();
+            currentIndex = 0;
+            initializeChart();
+            unloadSession(); // Unload session when settings change
+            updateStatus('Configuración aplicada. Gráfico reiniciado.', 'info');
+        }
+
+
+        //colcoar marca de evento
+        function recordSessionEvent(eventType) {
+
+
+            if (!isPlottingActive || !activeSession) {
+                updateStatus('Debes iniciar el gráficado para registrar eventos.', 'warning',true);
+                return;
+            }
+            var markers = dataChart.options.plugins.line_p.liveMarkers
+            var has_loaded = markers.findIndex(x=>x.type=="loaded") != -1;
+
+
+           /* if (eventType == "loaded"){
+                if(has_loaded){
+                    var current = updateStatus("Ya esta cargado","error",true);
+                    return;
+                }else{
+
+                }
+            }else{
+                if(!has_loaded){
+                    var current = updateStatus("Debes cargar antes","error",true);
+                    return;
+                }else{
+
+                }
+            }*/
+
+           
+
+           
+
+           
+            const currentChartIndex = currentIndex > 0 ? currentIndex - 1 : 0;
+
+            const eventMarker = { 
+                type: eventType, 
+                timestamp: new Date().toISOString(), 
+                chartIndex: currentChartIndex 
+            };
+            //alert(currentChartIndex)
+
+
+            
+
+            markers.push(eventMarker)
+            dataChart.options.plugins.line_p.liveMarkers = markers
+            //activeSession.markers.push(eventMarker);
+            
+            if (activeSession.shouldSave) {
+                 var mark = {
+                    session_id:activeSession.id,
+                    mark_name:eventType,
+                    create_at:currentChartIndex,//new Date().getTime(),
+                    on_temp:0.0,
+                }
+
+                fetch("http://"+host+":8080/api/v1/temp/roast_sessions/mark",{
+
+                    method:"POST",
+                    headers : {"Content-Type":"application/json"},
+                    body:JSON.stringify(mark)
+
+                })
+
+                saveRoastSessions();
+
+
+            }
+            let eventName = '';
+            switch (eventType) {
+                case 'loaded': eventName = 'Cargado'; break;
+                case 'unloaded': eventName = 'Descargado'; break;
+                case 'gas_on': eventName = 'Gas Encendido'; break; // Nuevo evento
+                case 'more_gas': eventName = 'Más Gas'; break;
+                case 'less_gas': eventName = 'Menos Gas'; break;
+                case 'gas_off': eventName = 'Gas Off'; break; 
+                case 'extractor_on': eventName = 'Extractor On'; break;
+                case 'extractor_off': eventName = 'Extractor Apagado'; break;
+                default: eventName = eventType;
+            }
+            updateStatus(`Evento '${eventName}' registrado.`, 'info');
+            if (dataChart) { dataChart.update(); }
+        }
+
+
+        // --- Local Storage Session Management ---
+        function loadRoastSessions() {
+
+            fetch("http://"+host+":8080/api/v1/temp/roast_sessions")
+            .then(r=>r.json())
+            .then(r=>{
+
+                console.log(r)
+                var sessions = r.sessions;//.filter(s=>s.end_at!=0)
+
+                allRoastSessions = sessions
+
+                renderSessionList();
+            })
+
+            return;
+            //TODO eliminar
+            try {
+                const storedSessions = localStorage.getItem('roastSessions');
+                if (storedSessions) {
+                    allRoastSessions = JSON.parse(storedSessions);
+                    renderSessionList();
+                }
+            } catch (error) { console.error('Error al cargar sesiones:', error); }
+        }
+
+        function saveRoastSessions() {
+            try {
+                localStorage.setItem('roastSessions', JSON.stringify(allRoastSessions));
+            } catch (error) { console.error('Error al guardar sesiones:', error); }
+        }
+
+
+        //llamar a la api para eliminar del backend
+        async function deleteSession(sessionId) {
+
+            if(!confirm("WARNING: Desea elminar la session: "+sessionId+"?")){return}
+            var response = await fetch("http://"+host+":8080/api/v1/temp/roast_sessions/"+sessionId,{method:"DELETE"}).then(x=>x.json())
+            //alert(response.msg)
+            loadRoastSessions();
+            renderSessionList();
+            updateStatus(`Sesión "${sessionId}" borrada.`, 'info',true);
+            return
+            
+
+            const sessionIndex = allRoastSessions.findIndex(s => s.id === sessionId);
+            if (sessionIndex > -1) {
+                const sessionName = allRoastSessions[sessionIndex].name || `Sesión ${sessionId.substring(0,8)}`;
+                
+                allRoastSessions.splice(sessionIndex, 1);
+                
+                if (loadedSessionId === sessionId) {
+                    unloadSession();
+                }
+
+                saveRoastSessions();
+                renderSessionList();
+                
+                updateStatus(`Sesión "${sessionName}" borrada.`, 'info');
+            } else {
+                updateStatus('No se encontró la sesión para borrar.', 'error');
+            }
+        }
+
+
+        function renderSessionList() {
+            sessionListEl.innerHTML = '';
+            if (allRoastSessions.length === 0) {
+                sessionListEl.innerHTML = `<li class="session-list-item" style="justify-content: center; color: var(--text-secondary);">No hay sesiones guardadas.</li>`;
+                return;
+            }
+            
+            sessionListEl.onclick = function(event) {
+                const button = event.target.closest('button.icon-button');
+                if (!button) return;
+
+                const sessionId = button.dataset.sessionId;
+                const sessionName = button.dataset.sessionName;
+                if (button.classList.contains('load-session-btn')) {
+                    
+                    const sessionToLoad = {sessionId,sessionName};
+                    if (sessionToLoad) loadSession(sessionToLoad);
+                } else if (button.classList.contains('delete-session-btn')) {
+                    deleteSession(sessionId);
+                }
+            };
+
+            const fragment = document.createDocumentFragment();
+            allRoastSessions.slice().reverse().forEach(session => {
+                const listItem = document.createElement('li');
+                listItem.className = 'session-list-item';
+                const displayName = session.name || `Sesión ${session.id.substring(0, 8)}`;
+                listItem.innerHTML = `
+                    <div class="session-list-item-text">
+                        <span class="id">${displayName}</span>
+                        <span class="date">${new Date(session.create_at).toLocaleString('es-ES',{dateStyle:'short',timeStyle:'short'})}</span>
+                    </div>
+                    <div class="session-item-actions">
+                        <button 
+                            class="icon-button load-session-btn" 
+                            data-session-id="${session.id}" 
+                            data-session-name="${session.name}"                     
+                            title="Cargar para comparar">
+                            <span class="material-icons">layers</span>
+                        </button>
+                        <button 
+                            class="icon-button delete-session-btn" 
+                            data-session-id="${session.id}" 
+                            data-session-name="${session.name}" 
+                            title="Borrar permanentemente">
+                            <span class="material-icons">delete_outline</span>
+                        </button>
+                    </div>
+                `;
+                fragment.appendChild(listItem);
+            });
+            sessionListEl.appendChild(fragment);
+        }
+
+        //cargar datos de una session guardada
+        async function loadSession(session) {
+            if (!dataChart) return;
+            unloadSession();
+            
+            var data = await fetch("http://"+host+":8080/api/v1/temp/roast_sessions/"+session.sessionId)
+            .then(r=>r.json())
+            //.then(j=>j["temps"])
+            // Load only integer temperature for the loaded dataset (now at index 1)
+            data.temps.forEach((point, i) => {
+                dataChart.data.datasets[2].data[i] = point.temp;
+            });
+            
+
+            var loadedSessionMarkers = data.marks.map(mark=>{
+                return {
+                        type:mark.mark_name,
+                        timestamp: new Date().toISOString(),
+                        chartIndex: mark.create_at
+                    }
+            })
+            //loadedSessionMarkers = session.markers || [];
+            dataChart.options.plugins.line_p.loadedMarkers = loadedSessionMarkers;
+            
+            dataChart.update();
+            
+            loadedSessionId = session.sessionId;
+            unloadSessionBtn.style.display = 'flex';
+            const displayName = session.sessionName || `Sesión ${session.sessionId.substring(0, 8)}`;
+            updateStatus(`Sesión "${displayName}" cargada para comparar.`, 'info');
+        }
+        
+
+        //quitar los datos del grafico
+        function unloadSession() {
+            if (!dataChart) return;
+            
+            // Clear only integer temperature for the loaded dataset (now at index 1)
+            dataChart.data.datasets[2].data.fill(null);
+            
+            loadedSessionMarkers.length = 0;
+            dataChart.options.plugins.line_p.loadedMarkers = loadedSessionMarkers;
+            
+            dataChart.update();
+            
+            loadedSessionId = null;
+            unloadSessionBtn.style.display = 'none';
+        }
+
+
+        // --- Theme Toggling ---
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark-theme');
+            document.body.classList.toggle('light-theme', !isDark);
+            themeToggleBtn.innerHTML = `<span class="material-icons">${isDark ? 'light_mode' : 'dark_mode'}</span>`;
+            currentTheme = isDark ? 'dark' : 'light';
+            localStorage.setItem('theme', currentTheme);
+            initializeChart();
+            
+            if (loadedSessionId) {
+                const sessionToReload = allRoastSessions.find(s => s.id === loadedSessionId);
+                if (sessionToReload) loadSession(sessionToReload);
+            }
+        }
+
+        function applyInitialTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.body.classList.add(savedTheme === 'light' ? 'light-theme' : 'dark-theme');
+            document.body.classList.remove(savedTheme === 'light' ? 'dark-theme' : 'light-theme');
+            themeToggleBtn.innerHTML = `<span class="material-icons">${savedTheme === 'light' ? 'dark_mode' : 'light_mode' }</span>`;
+            currentTheme = savedTheme;
+        }
+
+        // --- Modal Functions ---
+        function showOptimizationModal(title, content) {
+            modalTitleEl.innerHTML = title;
+            modalContentEl.innerHTML = content;
+            modalOverlay.classList.add('open');
+        }
+
+        function hideOptimizationModal() {
+            modalOverlay.classList.remove('open');
+        }
+
+        // --- Gemini API Call ---
+        //TODO
+        async function optimizeRoastProfile() {
+            showOptimizationModal('Generando Sugerencias...', '<div class="flex justify-center items-center p-4"><p class="text-center mt-2">Analizando datos con la IA...</p></div>');
+            let dataToAnalyze = [];
+            if (isPlottingActive && activeSession) {
+                dataToAnalyze = activeSession.data;
+            } else if (loadedSessionId) {
+                const loadedSession = allRoastSessions.find((s) => s.id === loadedSessionId);
+                if(loadedSession) dataToAnalyze = loadedSession.data;
+            } else {
+                for (let i = 0; i < currentIndex; i++) {
+                    // When no session is active or loaded, only use the integer data from the live chart.
+                    if (dataChart.data.datasets[0].data[i] !== null) { // Check if data exists at index
+                        dataToAnalyze.push({ tiempo: dataChart.data.labels[i], temperaturaInt: dataChart.data.datasets[0].data[i] });
+                    }
+                }
+            }
+
+            if (dataToAnalyze.length < 5) {
+                showOptimizationModal('Datos Insuficientes', '<p class="text-red-500">No hay suficientes datos para un análisis. Por favor, inicia el gráficado o carga una sesión.</p>');
+                return;
+            }
+
+            const prompt = `Analiza los siguientes puntos de datos de temperatura (Celsius) de un proceso de tostado de café, donde cada punto representa la temperatura en un instante de tiempo específico (MM:SS). Cada punto de datos tiene una temperatura entera (principal) y, si está disponible, una temperatura flotante (secundaria). Basado en la curva de temperatura principal (temperaturaInt):\n\n1.  **Ofrece sugerencias para optimizar** este perfil de tostado. ¿Qué ajustes se podrían hacer en diferentes fases (secado, primer crack, desarrollo final)?\n2.  **Predice posibles características de sabor** o notas que este café podría desarrollar con este perfil.\n3.  **Menciona los rangos de temperatura ideales** para las fases de secado, primer crack y desarrollo en un tueste de café general, y compara brevemente con los datos proporcionados.\n\nDatos de temperatura (Tiempo:TemperaturaInt:TemperaturaFloat, si existe):\n${dataToAnalyze.map((p) => `tiempo ${p.tiempo}, temperatura ${p.temperaturaInt}` + (p.temperaturaFloat !== undefined ? `, temperaturaFloat ${p.temperaturaFloat}` : '')).join('\n')}\n\nPor favor, estructura tu respuesta en un formato fácil de leer, util.`;
+            const payload = { contents: [{ role: 'user', parts: [{ text: prompt }] }] };
+            const apiKey = "AIzaSyCUwqhEQQDmNnr5cF7zN50UDeRrHQynNeo"; // API key is left blank, will be provided by Canvas runtime
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+                const result = await response.json();
+                const analysisText = result.candidates[0].content.parts[0].text;
+                showOptimizationModal('Optimización del Perfil de Tostado', `<div class="whitespace-pre-wrap font-sans">${analysisText}</div>`);
+            } catch (error) {
+                showOptimizationModal('Error en el Análisis', `<p class="text-red-500">${error.message}.</p>`);
+            }
+        }
+
+        // --- Event Listeners ---
+        window.onload = () => {
+            applyInitialTheme();
+            initializeChart();
+            initializeIndicatorChart();
+            initializeWebSocketConnection();
+            loadRoastSessions(); 
+
+        };
+
+        themeToggleBtn.addEventListener('click', toggleTheme);
+        startPlottingBtn.addEventListener('click', startPlotting);
+        stopPlottingBtn.addEventListener('click', stopPlotting);
+        resetChartBtn.addEventListener('click', resetChartData);
+        applySettingsBtn.addEventListener('click', applyChartSettings);
+        optimizeProfileBtn.addEventListener('click', optimizeRoastProfile);
+        unloadSessionBtn.addEventListener('click', unloadSession);
+
+        loadedBtn.addEventListener('click', () => recordSessionEvent('loaded'));
+        unloadedBtn.addEventListener('click', () => recordSessionEvent('unloaded'));
+        gasOnBtn.addEventListener('click', () => recordSessionEvent('gas_on')); // Listener para Gas Encendido
+        moreGasBtn.addEventListener('click', () => recordSessionEvent('more_gas'));
+        lessGasBtn.addEventListener('click', () => recordSessionEvent('less_gas'));
+        gasOffBtn.addEventListener('click', () => recordSessionEvent('gas_off'));
+        extractorOnBtn.addEventListener('click', () => recordSessionEvent('extractor_on'));
+        extractorOffBtn.addEventListener('click', () => recordSessionEvent('extractor_off'));
+
+
+        modalCloseBtn.addEventListener('click', hideOptimizationModal);
+        modalConfirmBtn.addEventListener('click', hideOptimizationModal);
+    </script>
+</body>
+</html>

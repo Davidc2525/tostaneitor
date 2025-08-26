@@ -1,0 +1,12 @@
+github.com/Davidc2525/go_try v0.0.0-20250805195054-934ab2ed2193 h1:JfOhkxFpmuoOILFs8293oUwS+IwZLICzKcHaYuHj8v8=
+github.com/Davidc2525/go_try v0.0.0-20250805195054-934ab2ed2193/go.mod h1:q2572IRLoFinTBxcOEPDEvPz2xvJTjVgO14mmzM5xr8=
+github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
+github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
+github.com/gorilla/WebSocket v1.4.0 h1:35QSw268CUvNjGktOMOjpFjHunm2yRVey0H4tlJImBI=
+github.com/gorilla/WebSocket v1.4.0/go.mod h1:yNhBVAVVW3bQaEHpzQoGcyq0BnD9Dm7qGKYNaW9soic=
+github.com/gorilla/websocket v1.5.3 h1:saDtZ6Pbx/0u+bgYQ3q96pZgCzfhKXGPqt7kZ72aNNg=
+github.com/gorilla/websocket v1.5.3/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
+github.com/mattn/go-sqlite3 v1.14.29 h1:1O6nRLJKvsi1H2Sj0Hzdfojwt8GiGKm+LOfLaBFaouQ=
+github.com/mattn/go-sqlite3 v1.14.29/go.mod h1:Uh1q+B4BYcTPb+yiD3kU8Ct7aC0hY9fxUwlHK0RXw+Y=
+golang.org/x/net v0.42.0 h1:jzkYrhi3YQWD6MLBJcsklgQsoAcw89EcZbJw8Z614hs=
+golang.org/x/net v0.42.0/go.mod h1:FF1RA5d3u7nAYA4z2TkclSCKh68eSXtiFwcWQpPXdt8=

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Grano Bendito - Soluciones Profesionales en Café de Especialidad</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            color: #333333;
+        }
+        h1, h2, h3, .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)), url('./banner.png');
+            background-size: cover;
+            background-position: center;
+        }
+        .primary-color { color: #4E342E; }
+        .bg-primary-color { background-color: #4E342E; }
+        .bg-secondary-color { background-color: #F9F9F9; }
+        .border-primary-color { border-color: #4E342E; }
+        .ring-primary-color { --tw-ring-color: #4E342E; }
+
+        .btn {
+            @apply inline-block px-8 py-3 rounded-md text-base font-bold tracking-wider uppercase transition-all duration-300 ease-in-out;
+        }
+        .btn-primary {
+            @apply bg-primary-color text-white shadow-md hover:bg-opacity-90 hover:shadow-lg transform hover:-translate-y-0.5;
+        }
+        .btn-secondary {
+            @apply bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary-color;
+        }
+        .card {
+            @apply bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1;
+        }
+        /* Animaciones al hacer scroll */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-3xl font-display primary-color font-bold">Café Grano Bendito</a>
+            <div class="hidden lg:flex items-center space-x-10">
+                <a href="#nosotros" class="text-gray-600 hover:primary-color transition font-medium">Nosotros</a>
+                <a href="#soluciones" class="text-gray-600 hover:primary-color transition font-medium">Soluciones</a>
+                <a href="#productos" class="text-gray-600 hover:primary-color transition font-medium">Productos</a>
+                <a href="#contacto" class="btn btn-primary text-sm px-6 py-2">Contactar</a>
+            </div>
+            <button id="mobile-menu-button" class="lg:hidden primary-color focus:outline-none">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden px-6 pt-2 pb-4">
+            <a href="#nosotros" class="block py-2 text-gray-600 hover:primary-color">Nosotros</a>
+            <a href="#soluciones" class="block py-2 text-gray-600 hover:primary-color">Soluciones</a>
+            <a href="#productos" class="block py-2 text-gray-600 hover:primary-color">Productos</a>
+            <a href="#contacto" class="block mt-2 btn btn-primary w-full text-center">Contactar</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-bg h-[85vh] flex items-center text-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl">
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight animate-on-scroll">La Excelencia en Café de Especialidad para su Negocio.</h1>
+                <p class="text-xl md:text-2xl mb-10 max-w-2xl animate-on-scroll" style="transition-delay: 200ms;">Proveemos café de origen de calidad superior, tostado a la perfección. El socio estratégico que su marca necesita.</p>
+                <div class="space-x-4 animate-on-scroll" style="transition-delay: 400ms;">
+                    <a href="#soluciones" class="btn btn-primary">Soluciones para Negocios</a>
+                    <a href="#productos" class="btn btn-secondary">Comprar al Detal</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- "Por qué elegirnos" Section -->
+    <section id="porque-elegirnos" class="py-20 bg-secondary-color">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-display primary-color mb-4 animate-on-scroll">Su Socio Estratégico en Café</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto animate-on-scroll" style="transition-delay: 200ms;">Más que un proveedor, somos un aliado comprometido con la calidad, la consistencia y el éxito de su negocio.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-10">
+                <!-- Feature 1 -->
+                <div class="text-center animate-on-scroll" style="transition-delay: 100ms;">
+                    <div class="bg-primary-color text-white rounded-full w-20 h-20 mx-auto flex items-center justify-center mb-5 shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 5a3 3 0 015.255-2.268a.75.75 0 011.49 0A3 3 0 0115 5v.5a2.5 2.5 0 012.5 2.5v.5a2.5 2.5 0 01-2.5 2.5V15a3 3 0 01-3 3h-5a3 3 0 01-3-3V11a2.5 2.5 0 01-2.5-2.5v-.5A2.5 2.5 0 015 5.5V5zm4.75 8.25a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75h-.01a.75.75 0 01-.75-.75v-.01zM10 10.25a.75.75 0 00-.75.75v.01a.75.75 0 00.75.75h.01a.75.75 0 00.75-.75v-.01a.75.75 0 00-.75-.75h-.01zM7.25 12a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75h-.01a.75.75 0 01-.75-.75v-.01z" clip-rule="evenodd" /></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2 primary-color">Calidad Insuperable</h3>
+                    <p class="text-gray-600">Selección rigurosa de granos de especialidad y perfiles de tueste precisos para un sabor excepcional y consistente.</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="text-center animate-on-scroll" style="transition-delay: 300ms;">
+                    <div class="bg-primary-color text-white rounded-full w-20 h-20 mx-auto flex items-center justify-center mb-5 shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zM6 8a2 2 0 11-4 0 2 2 0 014 0zM1.49 15.326a.78.78 0 01-.358-.442 3 3 0 014.308-3.516a.75.75 0 01.574.933 4.5 4.5 0 00-4.524 2.925.78.78 0 01-.001.001zM18.51 15.326a.78.78 0 00.358-.442 3 3 0 00-4.308-3.516.75.75 0 00-.574.933 4.5 4.5 0 014.524 2.925.78.78 0 00.001.001zM14 8a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2 primary-color">Soporte y Asesoría</h3>
+                    <p class="text-gray-600">Le acompañamos en la creación de su marca, desde la selección del café hasta el desarrollo de su empaque.</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="text-center animate-on-scroll" style="transition-delay: 500ms;">
+                    <div class="bg-primary-color text-white rounded-full w-20 h-20 mx-auto flex items-center justify-center mb-5 shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.527-1.903 6.012 6.012 0 012.173 1.903A6.01 6.01 0 0116 10c0 .35-.022.693-.065 1.027a.75.75 0 01-1.435.242A4.5 4.5 0 0014.5 10c0-.35.022-.693.065-1.027a.75.75 0 011.435-.242A6.011 6.011 0 0110 16c-1.657 0-3.155-.67-4.243-1.757a6.01 6.01 0 01-1.425-2.217.75.75 0 011.435-.242A4.5 4.5 0 005.5 10c0 .35-.022.693-.065 1.027a.75.75 0 01-1.435.242A6.01 6.01 0 014 10c0-.35.022-.693.065-1.027a.75.75 0 01-.733-.946z" clip-rule="evenodd" /></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2 primary-color">Trazabilidad Completa</h3>
+                    <p class="text-gray-600">Conozca la historia detrás de cada grano. Ofrecemos total transparencia desde la finca hasta su taza.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Soluciones para Negocios Section -->
+    <section id="soluciones" class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="animate-on-scroll">
+                    <img src="https://placehold.co/600x450/a1887f/ffffff?text=Soluciones+B2B" alt="Reunión de negocios con café" class="rounded-lg shadow-xl w-full">
+                </div>
+                <div class="animate-on-scroll" style="transition-delay: 200ms;">
+                    <h2 class="text-4xl md:text-5xl font-display primary-color mb-6">Impulsamos su Negocio de Café</h2>
+                    <p class="text-lg mb-6 text-gray-600">Ofrecemos soluciones integrales para cafeterías, distribuidores y emprendedores que deseen lanzar su propia marca con un producto de calidad garantizada.</p>
+                    <ul class="space-y-4 text-gray-700 mb-8">
+                        <li class="flex items-start"><span class="bg-primary-color text-white rounded-full w-6 h-6 text-sm flex items-center justify-center mr-3 mt-1 flex-shrink-0">✓</span><span>**Marca Privada:** Café con su propia marca y empaque. Nosotros nos encargamos de la producción.</span></li>
+                        <li class="flex items-start"><span class="bg-primary-color text-white rounded-full w-6 h-6 text-sm flex items-center justify-center mr-3 mt-1 flex-shrink-0">✓</span><span>**Distribución Mayorista:** Suministro constante de café en grano o molido para su operación.</span></li>
+                        <li class="flex items-start"><span class="bg-primary-color text-white rounded-full w-6 h-6 text-sm flex items-center justify-center mr-3 mt-1 flex-shrink-0">✓</span><span>**Asesoría y Capacitación:** Ayudamos a su equipo a entender y preparar el mejor café.</span></li>
+                    </ul>
+                    <a href="#contacto" class="btn btn-primary">Solicitar Catálogo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nuestro Proceso Section -->
+    <section class="py-20 bg-secondary-color">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-display primary-color mb-4 animate-on-scroll">Nuestro Proceso de Calidad</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto animate-on-scroll" style="transition-delay: 200ms;">Controlamos cada etapa para asegurar un producto final que supere sus expectativas.</p>
+            </div>
+            <div class="grid md:grid-cols-4 gap-4 relative">
+                 <!-- Linea de conexión -->
+                <div class="hidden md:block absolute top-1/2 -translate-y-1/2 left-0 w-full h-0.5 bg-gray-300"></div>
+                <!-- Step 1 -->
+                <div class="text-center relative p-4 animate-on-scroll" style="transition-delay: 100ms;">
+                    <div class="relative z-10 bg-white border-4 border-primary-color rounded-full w-24 h-24 mx-auto flex items-center justify-center mb-4 text-3xl font-bold primary-color">1</div>
+                    <h3 class="text-xl font-bold mb-2">Selección</h3>
+                    <p class="text-gray-600 text-sm">Elegimos los mejores granos de fincas certificadas.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="text-center relative p-4 animate-on-scroll" style="transition-delay: 300ms;">
+                    <div class="relative z-10 bg-white border-4 border-primary-color rounded-full w-24 h-24 mx-auto flex items-center justify-center mb-4 text-3xl font-bold primary-color">2</div>
+                    <h3 class="text-xl font-bold mb-2">Tueste</h3>
+                    <p class="text-gray-600 text-sm">Tostamos artesanalmente para revelar perfiles únicos.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="text-center relative p-4 animate-on-scroll" style="transition-delay: 500ms;">
+                    <div class="relative z-10 bg-white border-4 border-primary-color rounded-full w-24 h-24 mx-auto flex items-center justify-center mb-4 text-3xl font-bold primary-color">3</div>
+                    <h3 class="text-xl font-bold mb-2">Control</h3>
+                    <p class="text-gray-600 text-sm">Catamos cada lote para garantizar consistencia y calidad.</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="text-center relative p-4 animate-on-scroll" style="transition-delay: 700ms;">
+                    <div class="relative z-10 bg-white border-4 border-primary-color rounded-full w-24 h-24 mx-auto flex items-center justify-center mb-4 text-3xl font-bold primary-color">4</div>
+                    <h3 class="text-xl font-bold mb-2">Empaque</h3>
+                    <p class="text-gray-600 text-sm">Empacamos con válvulas de desgasificación para máxima frescura.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Productos (Venta al Detal) Section -->
+    <section id="productos" class="py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl md:text-5xl font-display primary-color mb-4 animate-on-scroll">Café para su Hogar</h2>
+            <p class="text-lg mb-12 max-w-2xl mx-auto text-gray-600 animate-on-scroll" style="transition-delay: 200ms;">La misma calidad profesional, disponible para que la disfrute en casa.</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Producto 1 -->
+                <div class="card animate-on-scroll">
+                    <img src="https://placehold.co/400x300/a1887f/ffffff?text=Blend+de+la+Casa" alt="Bolsa de café Blend de la Casa" class="w-full h-64 object-cover">
+                    <div class="p-6 text-left">
+                        <h3 class="text-2xl font-display text-gray-800 mb-2">Blend de la Casa</h3>
+                        <p class="text-gray-600 mb-4 text-sm">Equilibrado y con cuerpo. Notas de chocolate y nuez. Ideal para espresso.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold primary-color">$15.00</span>
+                            <button class="btn btn-primary text-xs px-5 py-2">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Producto 2 -->
+                <div class="card animate-on-scroll" style="transition-delay: 200ms;">
+                    <img src="https://placehold.co/400x300/8d6e63/ffffff?text=Origen+Único" alt="Bolsa de café Origen Único" class="w-full h-64 object-cover">
+                    <div class="p-6 text-left">
+                        <h3 class="text-2xl font-display text-gray-800 mb-2">Origen Único: Colombia</h3>
+                        <p class="text-gray-600 mb-4 text-sm">Cítrico y floral. Acidez brillante y final limpio. Perfecto para métodos de filtrado.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold primary-color">$18.00</span>
+                            <button class="btn btn-primary text-xs px-5 py-2">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Producto 3 -->
+                <div class="card animate-on-scroll" style="transition-delay: 400ms;">
+                    <img src="https://placehold.co/400x300/795548/ffffff?text=Descafeinado" alt="Bolsa de café Descafeinado" class="w-full h-64 object-cover">
+                    <div class="p-6 text-left">
+                        <h3 class="text-2xl font-display text-gray-800 mb-2">Descafeinado Suave</h3>
+                        <p class="text-gray-600 mb-4 text-sm">Todo el sabor, sin cafeína. Proceso natural al agua. Dulce y suave.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold primary-color">$16.00</span>
+                            <button class="btn btn-primary text-xs px-5 py-2">Comprar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto Section -->
+    <section id="contacto" class="py-20 bg-secondary-color">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <h2 class="text-4xl md:text-5xl font-display primary-color mb-4 animate-on-scroll">Contáctenos</h2>
+                <p class="text-lg mb-12 max-w-2xl mx-auto text-gray-600 animate-on-scroll" style="transition-delay: 200ms;">Estamos listos para discutir sus necesidades y ofrecerle una solución a medida. Complete el formulario o contáctenos directamente.</p>
+            </div>
+            <div class="max-w-4xl mx-auto bg-white p-8 md:p-12 rounded-lg shadow-xl animate-on-scroll" style="transition-delay: 400ms;">
+                <form>
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <input type="text" placeholder="Nombre Completo" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 ring-primary-color">
+                        <input type="email" placeholder="Correo Electrónico Corporativo" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 ring-primary-color">
+                    </div>
+                    <div class="mb-6">
+                         <select class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 ring-primary-color text-gray-500">
+                            <option value="" disabled selected>Seleccione un servicio de interés</option>
+                            <option value="mayor">Marca Privada</option>
+                            <option value="distribucion">Distribución Mayorista</option>
+                            <option value="detal">Compra al Detal</option>
+                            <option value="otro">Consulta General</option>
+                        </select>
+                    </div>
+                    <div class="mb-6">
+                        <textarea placeholder="Describa su proyecto o consulta" rows="5" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 ring-primary-color"></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary w-full md:w-auto">Enviar Solicitud</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#261a18] text-gray-300 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-display text-white mb-4">Café Grano Bendito</h3>
+                    <p class="text-gray-400 text-sm">Excelencia en café de especialidad desde el origen hasta su taza.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-4">Navegación</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#nosotros" class="hover:text-white transition">Nosotros</a></li>
+                        <li><a href="#soluciones" class="hover:text-white transition">Soluciones</a></li>
+                        <li><a href="#productos" class="hover:text-white transition">Productos</a></li>
+                        <li><a href="#contacto" class="hover:text-white transition">Contacto</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-4">Contacto</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>ventas@granobendito.com</li>
+                        <li>+1 (555) 123-4567</li>
+                        <li>Caracas, Venezuela</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-4">Síganos</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M9.198 21.5h4v-8.01h2.667l.29-3.49H13.198v-1.72c0-.98.237-1.25 1.25-1.25h1.5v-3.49h-2.5c-3.125 0-4.125 1.438-4.125 4.125v2.333H7.198v3.49h2v8.01Z"/></svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163m0-1.625C8.724.538 8.32.526 7.053.588 3.69.732.732 3.69.588 7.053.526 8.32.538 8.724.538 12s-.012 3.68.05 4.947c.145 3.364 3.003 6.222 6.364 6.368 1.267.06 1.67.072 4.947.072s3.68-.012 4.947-.072c3.361-.146 6.219-3.004 6.364-6.368.062-1.267.07-1.67.07-4.947s-.008-3.68-.07-4.947c-.145-3.364-3.003-6.222-6.364-6.368C15.68.526 15.276.538 12 .538Z"/><path d="M12 6.865A5.135 5.135 0 1 0 17.135 12 5.135 5.135 0 0 0 12 6.865Zm0 8.27A3.135 3.135 0 1 1 15.135 12 3.135 3.135 0 0 1 12 15.135Z"/><path d="M16.965 6.405a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5Z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-sm text-gray-400">
+                <p>&copy; 2024 Café Grano Bendito. Todos los derechos reservados. Sitio web diseñado para el éxito.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Script para el menú móvil
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Script para animaciones al hacer scroll
+        const scrollElements = document.querySelectorAll('.animate-on-scroll');
+
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (
+                elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+            );
+        };
+
+        const displayScrollElement = (element) => {
+            element.classList.add('is-visible');
+        };
+
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.15)) {
+                    displayScrollElement(el);
+                } 
+            })
+        }
+
+        window.addEventListener('scroll', handleScrollAnimation);
+        window.addEventListener('load', handleScrollAnimation);
+
+    </script>
+
+</body>
+</html>

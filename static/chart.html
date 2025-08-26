@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tostaneitor 3000</title>
+    <!-- Fuente Inter de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Iconos de Google Material Design -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* Variables CSS para el tema */
+        :root {
+            /* Colores modo oscuro */
+            --primary-main-dark: #0d9488; /* Teal */
+            --primary-light-dark: #2dd4bf; /* Teal 300 */
+            --secondary-main-dark: #38bdf8; /* Sky Blue */
+            --background-default-dark: #1f2937; /* Gray 800 */
+            --background-paper-dark: #374151;   /* Gray 700 */
+            --text-primary-dark: #e5e7eb; /* Gray 200 */
+            --text-secondary-dark: #9ca3af; /* Gray 400 */
+            --divider-dark: #4b5563; /* Gray 600 */
+            --input-bg-dark: #4b5563; /* Gray 600 */
+            --input-border-dark: #6b7280; /* Gray 500 */
+            --input-hover-border-dark: #a7d9e5; /* Brighter blue for hover */
+            --input-focus-border-dark: #38bdf8; /* Sky 400 */
+            --modal-bg-dark: #374151; /* Gray 700 */
+
+            /* Colores modo claro */
+            --primary-main-light: #059669; /* Emerald */
+            --primary-light-light: #34d399; /* Emerald 400 */
+            --secondary-main-light: #38bdf8; /* Sky Blue */
+            --background-default-light: #f3f4f6; /* Gray 100 */
+            --background-paper-light: #ffffff;   /* White */
+            --text-primary-light: #1f2937; /* Gray 800 */
+            --text-secondary-light: #6b7280; /* Gray 500 */
+            --divider-light: #d1d5db; /* Gray 300 */
+            --input-bg-light: #e5e7eb; /* Gray 200 */
+            --input-border-light: #d1d5db; /* Gray 300 */
+            --input-hover-border-light: #9ca3af; /* Gray 400 for hover */
+            --input-focus-border-light: #0c4a6e; /* Darker blue for focus */
+            --modal-bg-light: #f9fafb; /* Gray 50 */
+
+            /* Colores de estado */
+            --success-main: #10b981; /* Green */
+            --error-main: #ef4444;   /* Red */
+            --warning-main: #f59e0b; /* Amber */
+
+            /* Colores del gráfico (independientes del tema) */
+            --chart-int-color: rgba(56, 189, 248, 1);
+            --chart-int-bg-color: rgba(56, 189, 248, 0.15);
+            --chart-float-color: rgba(251, 191, 36, 1);
+            --chart-float-bg-color: rgba(251, 191, 36, 0.15);
+
+            /* Tema inicial */
+            --primary-main: var(--primary-main-dark);
+            --primary-light: var(--primary-light-dark);
+            --secondary-main: var(--secondary-main-dark);
+            --background-default: var(--background-default-dark);
+            --background-paper: var(--background-paper-dark);
+            --text-primary: var(--text-primary-dark);
+            --text-secondary: var(--text-secondary-dark);
+            --divider-color: var(--divider-dark);
+            --input-bg: var(--input-bg-dark);
+            --input-border: var(--input-border-dark);
+            --input-hover-border: var(--input-hover-border-dark);
+            --input-focus-border: var(--input-focus-border-dark);
+            --modal-bg: var(--modal-bg-dark);
+        }
+
+        body.light-theme {
+            --primary-main: var(--primary-main-light);
+            --primary-light: var(--primary-light-light);
+            --secondary-main: var(--secondary-main-light);
+            --background-default: var(--background-default-light);
+            --background-paper: var(--background-paper-light);
+            --text-primary: var(--text-primary-light);
+            --text-secondary: var(--text-secondary-light);
+            --divider-color: var(--divider-light);
+            --input-bg: var(--input-bg-light);
+            --input-border: var(--input-border-light);
+            --input-hover-border: var(--input-hover-border-light);
+            --input-focus-border: var(--input-focus-border-light);
+            --modal-bg: var(--modal-bg-light);
+        }
+
+        /* Estilos generales */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--background-default);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Contenedor principal */
+        .app-container {
+            width: 100%;
+            max-width: 1280px;
+            background-color: var(--background-paper);
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin: 16px; /* Responsive margin */
+        }
+
+        /* AppBar/Header */
+        .app-bar {
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            border-bottom: 1px solid var(--divider-color);
+            background-color: transparent;
+        }
+
+        .app-bar h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--primary-main);
+            font-weight: 600;
+            flex-grow: 1;
+        }
+
+        .app-bar-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .theme-toggle-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+        .theme-toggle-button:hover {
+            background-color: rgba(var(--text-secondary), 0.1);
+        }
+
+        .status-chip {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.875rem;
+            background-color: var(--background-default);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .status-chip.success { background-color: var(--success-main); color: white; }
+        .status-chip.error { background-color: var(--error-main); color: white; }
+
+        /* Large Temperature Display */
+        .temp-display-wrapper {
+            padding: 16px;
+        }
+
+        .temp-display {
+            background-color: var(--background-default);
+            border: 1px solid var(--divider-color);
+            color: var(--secondary-main);
+            font-size: 4rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5); /* Sky blue glow */
+            transition: background-color 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+        }
+        body.light-theme .temp-display {
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 0 10px rgba(12, 74, 110, 0.3); /* Darker blue glow for light theme */
+        }
+
+        /* Main Content Grid */
+        .main-content-grid {
+            display: flex;
+            flex-wrap: wrap; /* Allows wrapping on smaller screens */
+            flex-grow: 1;
+        }
+
+        .chart-section, .controls-section {
+            padding: 16px;
+            background-color: var(--background-paper);
+        }
+
+        .chart-section {
+            flex: 2; /* Takes 2/3 width on large screens */
+            min-width: 0; /* Ensures it can shrink */
+            overflow: hidden; /* Prevent content overflow */
+        }
+
+        .controls-section {
+            flex: 1; /* Takes 1/3 width on large screens */
+            border-left: 1px solid var(--divider-color);
+            overflow-y: auto; /* Scroll for controls if needed */
+        }
+        @media (max-width: 1024px) { /* Adjust for smaller screens (lg breakpoint) */
+            .chart-section, .controls-section {
+                flex-basis: 100%; /* Full width */
+                border-left: none;
+                border-top: 1px solid var(--divider-color); /* Top border on smaller screens */
+            }
+        }
+
+        /* Chart Canvas Container */
+        .chart-canvas-container {
+            position: relative;
+            height: 55vh; /* Default height for small screens */
+            background-color: var(--background-default);
+            border-radius: 8px;
+            border: 1px solid var(--divider-color);
+            overflow: hidden;
+            padding: 8px; /* Padding inside the chart container */
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        @media (min-width: 600px) { /* sm breakpoint */
+            .chart-canvas-container { height: 60vh; }
+        }
+        @media (min-width: 1024px) { /* lg breakpoint */
+            .chart-canvas-container { height: 65vh; padding: 16px; }
+        }
+
+        .chart-canvas-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+            display: block; /* Ensure canvas takes full space */
+        }
+
+        .chart-info-footer {
+            margin-top: 16px;
+            padding: 12px;
+            background-color: var(--background-paper);
+            border-radius: 8px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--divider-color);
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Control and Settings Sections */
+        .control-group {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            color: var(--primary-main);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+            text-transform: none; /* Material-UI default behavior */
+            font-size: 1rem;
+            flex-grow: 1; /* Allow buttons to expand */
+        }
+
+        .button.contained {
+            background-color: var(--primary-main);
+            color: white;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .button.contained:hover:not(:disabled) {
+            background-color: color-mix(in srgb, var(--primary-main) 85%, black); /* Darken on hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .button.outlined {
+            background-color: transparent;
+            color: var(--primary-main);
+            border: 1px solid var(--primary-main);
+        }
+        .button.outlined:hover:not(:disabled) {
+            background-color: rgba(var(--primary-main-dark), 0.1); /* Light background on hover */
+            color: color-mix(in srgb, var(--primary-main) 85%, black);
+            border-color: color-mix(in srgb, var(--primary-main) 85%, black);
+        }
+        body.light-theme .button.outlined:hover:not(:disabled) {
+            background-color: rgba(var(--primary-main-light), 0.1);
+        }
+
+        .button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .button .material-icons {
+            font-size: 1.25rem;
+        }
+
+        /* Text Field Styles */
+        .text-field {
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .text-field label {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            transform-origin: top left;
+            transition: all 0.2s ease;
+            transform: translateY(24px) scale(1); /* Simulate Material-UI label position */
+            pointer-events: none; /* Do not interfere with input clicks */
+        }
+
+        .text-field label.active {
+            transform: translateY(0) scale(0.75);
+            color: var(--primary-main);
+        }
+
+        .text-field input {
+            width: calc(100% - 24px); /* Adjust for padding */
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            outline: none;
+        }
+
+        .text-field input:focus {
+            border-color: var(--input-focus-border);
+            box-shadow: 0 0 0 2px rgba(var(--input-focus-border-rgb), 0.2); /* Replace with actual RGB if possible */
+        }
+        body.light-theme .text-field input:focus {
+             box-shadow: 0 0 0 2px rgba(12, 74, 110, 0.2);
+        }
+
+        .text-field input:hover {
+            border-color: var(--input-hover-border);
+        }
+
+        /* Session List */
+        .session-list-container {
+            max-height: 192px;
+            overflow-y: auto;
+            padding: 12px;
+            background-color: var(--background-default);
+            border: 1px solid var(--divider-color);
+            border-radius: 8px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .session-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .session-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            background-color: var(--background-paper);
+            border-radius: 4px;
+            border: 1px solid var(--divider-color);
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .session-list-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .session-list-item-text {
+            flex-grow: 1;
+            color: var(--text-primary);
+        }
+        .session-list-item-text span.id {
+            font-weight: bold;
+            color: var(--primary-light);
+        }
+        .session-list-item-text span.date {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            display: block;
+        }
+
+        .session-list-item button {
+            background-color: transparent;
+            color: var(--primary-main);
+            border: 1px solid var(--primary-main);
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.75rem;
+            text-transform: none;
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+        .session-list-item button:hover {
+            background-color: rgba(var(--primary-main-dark), 0.1);
+            color: color-mix(in srgb, var(--primary-main) 85%, black);
+            border-color: color-mix(in srgb, var(--primary-main) 85%, black);
+        }
+        body.light-theme .session-list-item button:hover {
+            background-color: rgba(var(--primary-main-light), 0.1);
+        }
+        .session-list-item button .material-icons {
+            font-size: 1rem;
+        }
+
+        /* Latest Values and General Info */
+        .info-section h6 {
+            font-size: 1.15rem;
+            color: var(--primary-main);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 8px;
+            font-size: 0.9rem;
+        }
+
+        .info-grid div {
+            color: var(--text-secondary);
+        }
+        .info-grid div:nth-child(even) {
+            text-align: right;
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+        .info-grid div.num-float-val {
+            color: var(--warning-main);
+        }
+
+        .info-divider {
+            border-bottom: 1px solid var(--divider-color);
+            margin: 16px 0;
+        }
+
+        .websocket-info {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-align: center;
+            padding-top: 16px;
+        }
+        .websocket-info code {
+            background-color: var(--background-default);
+            color: var(--text-secondary);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: var(--modal-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 600px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.open .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--divider-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--primary-main);
+            font-weight: bold;
+        }
+
+        .modal-close-button {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 4px;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+        .modal-close-button:hover {
+            background-color: rgba(var(--text-secondary), 0.1);
+        }
+
+        .modal-body {
+            padding: 16px 24px;
+            overflow-y: auto;
+            max-height: 70vh; /* Limit modal content height */
+            color: var(--text-primary);
+        }
+        .modal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+        .modal-body::-webkit-scrollbar-thumb {
+            background-color: var(--divider-color);
+            border-radius: 4px;
+        }
+
+        .modal-body p {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .modal-body pre {
+            background-color: var(--background-default);
+            padding: 12px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--divider-color);
+            text-align: right;
+        }
+
+        .modal-footer button {
+            background-color: var(--primary-main);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .modal-footer button:hover {
+            background-color: color-mix(in srgb, var(--primary-main) 85%, black);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Utility classes for consistency */
+        .flex { display: flex; }
+        .justify-center { justify-content: center; }
+        .items-center { align-items: center; }
+        .p-4 { padding: 16px; }
+        .text-center { text-align: center; }
+        .mt-2 { margin-top: 8px; }
+        .text-red-500 { color: var(--error-main); }
+        .w-full { width: 100%; }
+        .font-sans { font-family: 'Inter', sans-serif; }
+        .whitespace-pre-wrap { white-space: pre-wrap; }
+    </style>
+</head>
+<body class="dark-theme">
+    <div class="app-container">
+        <header class="app-bar">
+            <h1>Tostaneitor 3000</h1>
+            <div class="app-bar-actions">
+                <button class="theme-toggle-button" id="theme-toggle">
+                    <span class="material-icons">light_mode</span>
+                </button>
+                <div class="status-chip" id="status-message">Iniciando...</div>
+            </div>
+        </header>
+
+        <div class="temp-display-wrapper">
+            <div class="temp-display" id="current-large-temp">0.00°C</div>
+        </div>
+
+        <div class="main-content-grid">
+            <div class="chart-section">
+                <div class="chart-canvas-container">
+                    <canvas id="data-chart"></canvas>
+                </div>
+                <div class="chart-info-footer">
+                    (Espacio para indicadores adicionales si es necesario)
+                </div>
+            </div>
+
+            <div class="controls-section">
+                <div class="control-group">
+                    <h2 class="section-title">Controles</h2>
+                    <div class="button-group">
+                        <button class="button contained" id="start-plotting-btn">
+                            <span class="material-icons">play_arrow</span> Iniciar Gráficado
+                        </button>
+                        <button class="button contained" id="stop-plotting-btn" disabled>
+                            <span class="material-icons">pause</span> Detener Gráficado
+                        </button>
+                    </div>
+                    <button class="button outlined w-full" id="reset-chart-btn">
+                        <span class="material-icons">redo</span> Reiniciar Datos
+                    </button>
+                </div>
+
+                <div class="control-group">
+                    <h2 class="section-title">Configuración del Gráfico</h2>
+                    <div class="text-field">
+                        <label for="minutes-input" id="minutes-label" class="active">Duración del Gráfico (minutos)</label>
+                        <input type="number" id="minutes-input" value="15">
+                    </div>
+                    <div class="text-field">
+                        <label for="data-millis-input" id="data-millis-label" class="active">Intervalo de Datos (ms)</label>
+                        <input type="number" id="data-millis-input" value="500">
+                    </div>
+                    <button class="button contained w-full" id="apply-settings-btn">
+                        <span class="material-icons">settings</span> Aplicar Configuración
+                    </button>
+                </div>
+
+                <div class="control-group">
+                    <h2 class="section-title">Sesiones Anteriores</h2>
+                    <div class="session-list-container">
+                        <ul class="session-list" id="session-list">
+                            <!-- Sesiones se cargarán aquí por JS -->
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <button class="button contained w-full" id="optimize-profile-btn" style="padding: 12px; font-size: 1.1rem;">
+                        <span class="material-icons">lightbulb</span> Optimizar Perfil ✨
+                    </button>
+                </div>
+
+                <div class="control-group info-section">
+                    <h2 class="section-title">Últimos Valores Recibidos</h2>
+                    <div class="info-grid">
+                        <div>Valor Entero (numInt):</div>
+                        <div id="last-int-val">N/A</div>
+                        <div>Valor Flotante (numFloat):</div>
+                        <div id="last-float-val" class="num-float-val">N/A</div>
+                    </div>
+                </div>
+
+                <div class="info-divider"></div>
+
+                <div class="control-group info-section">
+                    <h2 class="section-title">Información General (Ejemplo)</h2>
+                    <div class="info-grid">
+                        <div>ID Sesión:</div>
+                        <div>S-20231028-001</div>
+                        <div>Fecha:</div>
+                        <div id="roast-date"></div>
+                        <div>Fuente de Datos:</div>
+                        <div>Sensor Principal</div>
+                    </div>
+                </div>
+                <p class="websocket-info">
+                    Conectando a: <code style="background-color: var(--background-default); color: var(--text-secondary); padding: 2px 4px; border-radius: 4px;">ws://192.168.100.12:81</code>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para el análisis de Gemini -->
+    <div class="modal-overlay" id="optimization-modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title"></h2>
+                <button class="modal-close-button" id="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-content"></div>
+            <div class="modal-footer">
+                <button id="modal-confirm-btn">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // DOM Elements
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const statusMessageEl = document.getElementById('status-message');
+        const currentLargeTempEl = document.getElementById('current-large-temp');
+        const startPlottingBtn = document.getElementById('start-plotting-btn');
+        const stopPlottingBtn = document.getElementById('stop-plotting-btn');
+        const resetChartBtn = document.getElementById('reset-chart-btn');
+        const minutesInput = document.getElementById('minutes-input');
+        const dataMillisInput = document.getElementById('data-millis-input');
+        const applySettingsBtn = document.getElementById('apply-settings-btn');
+        const sessionListEl = document.getElementById('session-list');
+        const optimizeProfileBtn = document.getElementById('optimize-profile-btn');
+        const lastIntValEl = document.getElementById('last-int-val');
+        const lastFloatValEl = document.getElementById('last-float-val');
+        const roastDateEl = document.getElementById('roast-date');
+        const chartCanvas = document.getElementById('data-chart');
+
+        // Modal Elements
+        const modalOverlay = document.getElementById('optimization-modal-overlay');
+        const modalTitleEl = document.getElementById('modal-title');
+        const modalContentEl = document.getElementById('modal-content');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const modalConfirmBtn = document.getElementById('modal-confirm-btn');
+
+        // Global State Variables
+        let websocket = null;
+        let dataChart = null;
+        let currentIndex = 0;
+        let isPlottingActive = false;
+        let minutes = parseInt(minutesInput.value);
+        let dataMillis = parseInt(dataMillisInput.value);
+        let dataRate = 60 * (1000 / dataMillis); // Data points per minute
+        let allRoastSessions = [];
+        let activeSession = null;
+        let loadedSessionId = null;
+        let currentTheme = localStorage.getItem('theme') || 'dark';
+
+        // --- Utility Functions ---
+
+        // Generate UUID
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0,
+                    v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        // Update Status Message
+        function updateStatus(message, type = 'info') {
+            statusMessageEl.textContent = message;
+            statusMessageEl.className = 'status-chip'; // Reset classes
+            if (type === 'success') {
+                statusMessageEl.classList.add('success');
+            } else if (type === 'error') {
+                statusMessageEl.classList.add('error');
+            }
+        }
+
+        // Generate Time Labels for X-axis
+        function generateTimeLabels() {
+            const _labels = [];
+            for (let i = 0; i < minutes * dataRate; i++) {
+                const totalSeconds = Math.floor(i / dataRate * 60);
+                const displayMinutes = Math.floor(totalSeconds / 60);
+                const displaySeconds = totalSeconds % 60;
+                const formattedTime = `${String(displayMinutes).padStart(2, '0')}:${String(displaySeconds).padStart(2, '0')}`;
+                _labels.push(formattedTime);
+            }
+            return _labels;
+        }
+
+        // Get CSS variable color
+        function getCssVar(name) {
+            return getComputedStyle(document.body).getPropertyValue(name).trim();
+        }
+
+        // Plugin for Chart.js to draw bands
+        const line_p = {
+            id: "line_p",
+            beforeDraw(chart, args, options) {
+                const { ctx, chartArea: { left, top, width, height }, scales: { x, y } } = chart;
+                ctx.save();
+
+                const isDark = document.body.classList.contains('dark-theme');
+
+                const bandColor = (r, g, b, a) => `rgba(${r}, ${g}, ${b}, ${a})`;
+
+                // Banda de Fin de Secado (Tiempo): 4:30 a 6 minutos
+                ctx.fillStyle = isDark ? bandColor(250, 170, 160, 0.3) : bandColor(255, 200, 190, 0.3);
+                ctx.beginPath();
+                const startX_dryTime = x.getPixelForValue(4.5 * dataRate);
+                const endX_dryTime = x.getPixelForValue(6 * dataRate);
+                ctx.rect(startX_dryTime, top, endX_dryTime - startX_dryTime, height);
+                ctx.fill();
+
+                // Banda de Fin de Secado (Temperatura): 150c a 160c
+                ctx.fillStyle = isDark ? bandColor(230, 50, 50, 0.3) : bandColor(255, 150, 150, 0.3);
+                ctx.beginPath();
+                const startY_dryTemp = y.getPixelForValue(160);
+                const endY_dryTemp = y.getPixelForValue(150);
+                ctx.rect(left, startY_dryTemp, width, endY_dryTemp - startY_dryTemp);
+                ctx.fill();
+
+                // Banda de 1er Crack (Tiempo): 8:30 a 9:30 minutos
+                ctx.fillStyle = isDark ? bandColor(100, 100, 200, 0.3) : bandColor(150, 150, 250, 0.3);
+                ctx.beginPath();
+                const startX_1stCrackTime = x.getPixelForValue(8.5 * dataRate);
+                const endX_1stCrackTime = x.getPixelForValue(9.5 * dataRate);
+                ctx.rect(startX_1stCrackTime, top, endX_1stCrackTime - startX_1stCrackTime, height);
+                ctx.fill();
+
+                // Banda de 1er Crack (Temperatura): 195c a 200c
+                ctx.fillStyle = isDark ? bandColor(230, 50, 50, 0.3) : bandColor(255, 150, 150, 0.3);
+                ctx.beginPath();
+                const startY_1stCrackTemp = y.getPixelForValue(200);
+                const endY_1stCrackTemp = y.getPixelForValue(195);
+                ctx.rect(left, startY_1stCrackTemp, width, endY_1stCrackTemp - startY_1stCrackTemp);
+                ctx.fill();
+
+                // Banda Final (Tiempo): 10 a 12 minutos
+                ctx.fillStyle = isDark ? bandColor(100, 240, 50, 0.3) : bandColor(150, 255, 100, 0.3);
+                ctx.beginPath();
+                const startX_finalTime = x.getPixelForValue(10 * dataRate);
+                const endX_finalTime = x.getPixelForValue(12 * dataRate);
+                ctx.rect(startX_finalTime, top, endX_finalTime - startX_finalTime, height);
+                ctx.fill();
+
+                // Banda de Temperatura Final Suave: 204c a 206c
+                ctx.fillStyle = isDark ? bandColor(10, 200, 140, 0.3) : bandColor(100, 220, 180, 0.3);
+                ctx.beginPath();
+                const startY_finalSoftTemp = y.getPixelForValue(206);
+                const endY_finalSoftTemp = y.getPixelForValue(204);
+                ctx.rect(left, startY_finalSoftTemp, width, endY_finalSoftTemp - startY_finalSoftTemp);
+                ctx.fill();
+
+                // Banda de Temperatura Final Fuerte: 210c a 215c
+                ctx.fillStyle = isDark ? bandColor(10, 200, 140, 0.3) : bandColor(100, 220, 180, 0.3);
+                ctx.beginPath();
+                const startY_finalStrongTemp = y.getPixelForValue(215);
+                const endY_finalStrongTemp = y.getPixelForValue(210);
+                ctx.rect(left, startY_finalStrongTemp, width, endY_finalStrongTemp - startY_finalStrongTemp);
+                ctx.fill();
+
+                ctx.restore();
+            }
+        };
+
+        // Initialize Chart.js
+        function initializeChart() {
+            if (dataChart) {
+                dataChart.destroy();
+            }
+
+            dataChart = new Chart(chartCanvas, {
+                type: 'line',
+                data: {
+                    labels: generateTimeLabels(),
+                    datasets: [
+                        {
+                            label: 'Valor Entero (numInt)',
+                            data: Array(minutes * dataRate).fill(null),
+                            borderColor: getCssVar('--chart-int-color'),
+                            backgroundColor: getCssVar('--chart-int-bg-color'),
+                            tension: 0.1,
+                            fill: true,
+                            pointRadius: 0,
+                            borderWidth: 0.9,
+                        },
+                        {
+                            label: 'Valor Flotante (numFloat)',
+                            data: Array(minutes * dataRate).fill(null),
+                            borderColor: getCssVar('--chart-float-color'),
+                            backgroundColor: getCssVar('--chart-float-bg-color'),
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 0,
+                            borderWidth: 0.5,
+                        },
+                    ],
+                },
+                plugins: [line_p],
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'category',
+                            title: {
+                                display: true,
+                                text: 'Tiempo (MM:SS)',
+                                color: getCssVar('--text-primary'),
+                                font: { size: 12 },
+                            },
+                            ticks: {
+                                color: getCssVar('--text-primary'),
+                                maxRotation: 45,
+                                autoSkip: true,
+                                maxTicksLimit: 15,
+                                font: { size: 10 },
+                            },
+                            grid: {
+                                color: getCssVar('--divider-color'),
+                                drawBorder: false,
+                            },
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Temperatura',
+                                color: getCssVar('--text-primary'),
+                                font: { size: 12 },
+                            },
+                            ticks: {
+                                color: getCssVar('--text-primary'),
+                                font: { size: 10 },
+                            },
+                            grid: {
+                                color: getCssVar('--divider-color'),
+                                drawBorder: false,
+                            },
+                        },
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                color: getCssVar('--text-primary'),
+                                font: { size: 11 },
+                            },
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: currentTheme === 'light' ? 'rgba(249, 250, 251, 0.9)' : 'rgba(31, 41, 55, 0.9)',
+                            titleColor: currentTheme === 'light' ? '#6b7280' : '#9ca3af',
+                            bodyColor: getCssVar('--text-primary'),
+                            borderColor: currentTheme === 'light' ? '#d1d5db' : '#4b5563',
+                            borderWidth: 1,
+                            padding: 10,
+                            callbacks: {
+                                title: (tooltipItems) => 'Tiempo: ' + tooltipItems[0].label,
+                                label: (context) =>
+                                    `${context.dataset.label}: ${context.parsed.y.toFixed(2)}`,
+                            },
+                        },
+                        line_p: {},
+                    },
+                    animation: { duration: 500 },
+                },
+            });
+
+            const today = new Date();
+            roastDateEl.textContent = today.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        // Add Data to Chart
+        function addDataToChart(intVal, floatVal) {
+            if (!dataChart) return;
+
+            
+
+		const newDatasets = dataChart.data.datasets.map((dataset, idx) => {
+			const newData = [...dataset.data];
+			newData[currentIndex] = idx === 0 ? intVal : floatVal;
+			return { ...dataset, data: newData };
+		});
+		
+		dataChart.data.datasets = newDatasets;
+
+            if (isPlottingActive && activeSession) {
+                // Find the index of the active session to update its data
+                const sessionIndex = allRoastSessions.findIndex(s => s.id === activeSession.id);
+                if (sessionIndex !== -1) {
+                    const updatedSessions = [...allRoastSessions];
+                    updatedSessions[sessionIndex].data.push({
+                        tiempo: dataChart.data.labels[currentIndex],
+                        temperaturaInt: intVal,
+                        temperaturaFloat: floatVal,
+                    });
+                    allRoastSessions = updatedSessions; // Update global variable
+                    saveRoastSessions(); // Save to localStorage immediately
+                }
+           
+            currentIndex++;
+            dataChart.update('none');
+            }
+
+           
+
+            lastIntValEl.textContent = intVal.toFixed(2);
+            lastFloatValEl.textContent = floatVal.toFixed(2);
+        }
+
+        // Update Large Temperature Display
+        function updateLargeTemperatureDisplay(tempVal) {
+            currentLargeTempEl.textContent = `${tempVal.toFixed(2)}°C`;
+        }
+
+        // --- WebSocket Functions ---
+        function initializeWebSocketConnection() {
+            if (websocket && (websocket.readyState === WebSocket.OPEN || websocket.readyState === WebSocket.CONNECTING)) {
+                console.log('WebSocket ya está abierto o conectándose.');
+                return;
+            }
+
+            updateStatus('Conectando al WebSocket...', 'info');
+            // IMPORTANT: Replace 'ws://192.168.100.12:81' with your actual ESP32 WebSocket server address
+            websocket = new WebSocket(prompt("dev url",'ws://192.168.100.15:81'));
+
+            websocket.onopen = () => {
+                console.log('Conexión WebSocket establecida.');
+                updateStatus('Conectado. Presiona "Iniciar Gráficado" para ver los datos en el gráfico.', 'success');
+                startPlottingBtn.disabled = false;
+                stopPlottingBtn.disabled = true; // Initially disabled
+            };
+
+            websocket.onmessage = (event) => {
+                const rawData = event.data;
+                try {
+                    const jsonData = JSON.parse(rawData);
+                    const numInt = parseFloat(jsonData.temp);
+                    const numFloat = parseFloat(jsonData.numFloat) || 0;
+
+                    if (isNaN(numInt) || isNaN(numFloat)) {
+                        console.error('Datos JSON no válidos o campos faltantes:', jsonData);
+                        updateStatus('JSON Inválido recibido', 'error');
+                        return;
+                    }
+
+                    updateLargeTemperatureDisplay(numInt);
+                    lastIntValEl.textContent = numInt.toFixed(2);
+                    lastFloatValEl.textContent = numFloat.toFixed(2);
+
+                    if (isPlottingActive) {
+                        if (currentIndex < minutes * dataRate) {
+                            addDataToChart(numInt, numFloat);
+                        } else {
+                            console.warn("Gráfico lleno. Los nuevos datos no se añadirán al final visualmente.");
+                            addDataToChart(numInt, numFloat);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error procesando JSON del mensaje:', error, 'Dato crudo:', rawData);
+                    updateStatus('Error procesando Datos JSON', 'error');
+                }
+            };
+
+            websocket.onerror = (event) => {
+                console.error('Error en WebSocket:', event);
+                updateStatus('Error de conexión WebSocket. Intentando reconectar en 5s...', 'error');
+                isPlottingActive = false;
+                startPlottingBtn.disabled = true;
+                stopPlottingBtn.disabled = true;
+                setTimeout(initializeWebSocketConnection, 5000);
+            };
+
+            websocket.onclose = (event) => {
+                console.log('Conexión WebSocket cerrada.');
+                if (event.wasClean) {
+                    updateStatus(`Conexión cerrada (código: ${event.code}). Intentando reconectar en 5s...`, 'info');
+                } else {
+                    updateStatus('Desconectado. Intentando reconectar en 5s...', 'error');
+                }
+                isPlottingActive = false;
+                startPlottingBtn.disabled = true;
+                stopPlottingBtn.disabled = true;
+                websocket = null;
+                setTimeout(initializeWebSocketConnection, 5000);
+            };
+        }
+
+        // --- Plotting Control Functions ---
+        function startPlotting() {
+            if (websocket && websocket.readyState === WebSocket.OPEN) {
+                let sessionToStart = activeSession;
+                if (!activeSession || activeSession.status === 'completed') {
+                    sessionToStart = {
+                        id: generateUUID(),
+                        startTime: new Date().toISOString(),
+                        settings: { minutes: minutes, data_millis: dataMillis },
+                        data: [],
+                        status: 'active',
+                    };
+                    allRoastSessions.push(sessionToStart);
+                    activeSession = sessionToStart;
+                    console.log('Nueva sesión iniciada:', activeSession.id);
+                    updateStatus('Nueva sesión iniciada y Gráficado iniciado.', 'success');
+                } else {
+                    updateStatus('Gráficado reanudado para la sesión existente.', 'success');
+                }
+                loadedSessionId = null; // Clear loaded session when starting a new or resuming one
+                isPlottingActive = true;
+                startPlottingBtn.disabled = true;
+                stopPlottingBtn.disabled = false;
+                saveRoastSessions(); // Save immediately after starting
+                renderSessionList();
+            } else {
+                updateStatus('WebSocket no conectado. No se puede iniciar el gráficado.', 'error');
+                startPlottingBtn.disabled = true;
+                stopPlottingBtn.disabled = true;
+            }
+        }
+
+        function stopPlotting() {
+            isPlottingActive = false;
+            updateStatus('Gráficado detenido', 'info');
+            startPlottingBtn.disabled = false;
+            stopPlottingBtn.disabled = true;
+
+            if (activeSession && activeSession.status === 'active') {
+                activeSession.endTime = new Date().toISOString();
+                activeSession.status = 'completed';
+                // Update the session in the allRoastSessions array
+                allRoastSessions = allRoastSessions.map(session =>
+                    session.id === activeSession.id ? activeSession : session
+                );
+                activeSession = null; // Clear active session after completion
+                console.log('Sesión completada y guardada:', activeSession ? activeSession.id : 'N/A');
+                saveRoastSessions(); // Save immediately after stopping
+                renderSessionList();
+            }
+            loadedSessionId = null;
+        }
+
+        function resetChartData() {
+            if (isPlottingActive) {
+                stopPlotting();
+            }
+
+            currentIndex = 0;
+            if (dataChart) {
+                dataChart.data.datasets[0].data.fill(null);
+                dataChart.data.datasets[1].data.fill(null);
+                dataChart.update('none');
+            }
+            lastIntValEl.textContent = 'N/A';
+            lastFloatValEl.textContent = 'N/A';
+            updateLargeTemperatureDisplay(0);
+            updateStatus('Datos Reiniciados', 'info');
+            activeSession = null;
+            loadedSessionId = null;
+        }
+
+        // Apply Chart Settings
+        function applyChartSettings() {
+            const newMinutes = parseInt(minutesInput.value);
+            const newDataMillis = parseInt(dataMillisInput.value);
+
+            if (isNaN(newMinutes) || newMinutes <= 0 || isNaN(newDataMillis) || newDataMillis < 100) {
+                updateStatus('Valores de configuración inválidos. Por favor, introduce números positivos (minutos > 0, ms >= 100).', 'error');
+                return;
+            }
+
+            minutes = newMinutes;
+            dataMillis = newDataMillis;
+            dataRate = 60 * (1000 / dataMillis);
+
+            stopPlotting();
+            currentIndex = 0;
+            initializeChart(); // Re-initialize chart with new settings
+            updateStatus('Configuración del gráfico aplicada. Gráfico reiniciado.', 'info');
+            loadedSessionId = null;
+        }
+
+        // --- Local Storage Session Management ---
+        function loadRoastSessions() {
+            try {
+                const storedSessions = localStorage.getItem('roastSessions');
+                if (storedSessions) {
+                    allRoastSessions = JSON.parse(storedSessions);
+                    console.log('Sesiones de tostado cargadas.');
+                    renderSessionList();
+                } else {
+                    allRoastSessions = [];
+                    console.log('No se encontraron sesiones de tostado en LocalStorage.');
+                }
+            } catch (error) {
+                console.error('Error al cargar sesiones de tostado desde LocalStorage:', error);
+                allRoastSessions = [];
+            }
+        }
+
+        function saveRoastSessions() {
+            try {
+                localStorage.setItem('roastSessions', JSON.stringify(allRoastSessions));
+                console.log('Sesiones de tostado guardadas.');
+            } catch (error) {
+                console.error('Error al guardar sesiones de tostado en LocalStorage:', error);
+            }
+        }
+
+        function renderSessionList() {
+            sessionListEl.innerHTML = ''; // Clear current list
+            if (allRoastSessions.length === 0) {
+                const listItem = document.createElement('li');
+                listItem.className = 'session-list-item';
+                listItem.innerHTML = `<div class="session-list-item-text" style="text-align: center; color: var(--text-secondary);">No hay sesiones guardadas.</div>`;
+                sessionListEl.appendChild(listItem);
+                return;
+            }
+
+            allRoastSessions.forEach(session => {
+                const listItem = document.createElement('li');
+                listItem.className = 'session-list-item';
+                listItem.innerHTML = `
+                    <div class="session-list-item-text">
+                        <span class="id">${session.id.substring(0, 8)}...</span>
+                        <span class="date">${new Date(session.startTime).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}</span>
+                    </div>
+                    <button class="load-session-btn" data-session-id="${session.id}">
+                        <span class="material-icons">arrow_forward</span> Cargar
+                    </button>
+                `;
+                sessionListEl.appendChild(listItem);
+            });
+
+            // Add event listeners to newly created buttons
+            document.querySelectorAll('.load-session-btn').forEach(button => {
+                button.onclick = (event) => {
+                    const sessionId = event.currentTarget.dataset.sessionId;
+                    const sessionToLoad = allRoastSessions.find(s => s.id === sessionId);
+                    if (sessionToLoad) {
+                        loadSession(sessionToLoad);
+                    }
+                };
+            });
+        }
+
+        function loadSession(session) {
+            if (isPlottingActive) {
+                stopPlotting();
+            }
+            activeSession = null; // Ensure no active session when loading historical data
+
+            minutesInput.value = session.settings.minutes;
+            dataMillisInput.value = session.settings.data_millis;
+
+            // Update global settings
+            minutes = session.settings.minutes;
+            dataMillis = session.settings.data_millis;
+            dataRate = 60 * (1000 / session.settings.data_millis);
+
+            initializeChart(); // Re-initialize chart to reset labels and clear data
+
+            // Populate chart with loaded session data
+            if (dataChart) {
+                session.data.forEach((point, i) => {
+                    dataChart.data.datasets[0].data[i] = point.temperaturaInt;
+                    dataChart.data.datasets[1].data[i] = point.temperaturaFloat;
+                });
+                currentIndex = session.data.length; // Set index to the end of loaded data
+                dataChart.update();
+            }
+
+            const lastPoint = session.data[session.data.length - 1];
+            if (lastPoint) {
+                updateLargeTemperatureDisplay(lastPoint.temperaturaInt);
+                lastIntValEl.textContent = lastPoint.temperaturaInt.toFixed(2);
+                lastFloatValEl.textContent = lastPoint.temperaturaFloat.toFixed(2);
+            } else {
+                updateLargeTemperatureDisplay(0);
+                lastIntValEl.textContent = 'N/A';
+                lastFloatValEl.textContent = 'N/A';
+            }
+
+            roastDateEl.textContent = new Date(session.startTime).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            isPlottingActive = false; // Ensure plotting is off when viewing historical data
+            loadedSessionId = session.id;
+            updateStatus(`Sesión "${session.id.substring(0, 8)}..." cargada.`, 'info');
+        }
+
+        // --- Theme Toggling ---
+        function toggleTheme() {
+            if (document.body.classList.contains('dark-theme')) {
+                document.body.classList.remove('dark-theme');
+                document.body.classList.add('light-theme');
+                themeToggleBtn.innerHTML = '<span class="material-icons">dark_mode</span>';
+                currentTheme = 'light';
+            } else {
+                document.body.classList.remove('light-theme');
+                document.body.classList.add('dark-theme');
+                themeToggleBtn.innerHTML = '<span class="material-icons">light_mode</span>';
+                currentTheme = 'dark';
+            }
+            localStorage.setItem('theme', currentTheme);
+            // Re-initialize chart to apply new theme colors
+            initializeChart();
+        }
+
+        // Apply initial theme
+        if (currentTheme === 'light') {
+            document.body.classList.add('light-theme');
+            themeToggleBtn.innerHTML = '<span class="material-icons">dark_mode</span>';
+        } else {
+            document.body.classList.add('dark-theme');
+            themeToggleBtn.innerHTML = '<span class="material-icons">light_mode</span>';
+        }
+
+
+        // --- Modal Functions ---
+        function showOptimizationModal(title, content) {
+            modalTitleEl.innerHTML = title; // Use innerHTML for dynamic content, including loading spinner
+            modalContentEl.innerHTML = content;
+            modalOverlay.classList.add('open');
+        }
+
+        function hideOptimizationModal() {
+            modalOverlay.classList.remove('open');
+        }
+
+        // --- Gemini API Call ---
+        async function optimizeRoastProfile() {
+            showOptimizationModal(
+                'Generando Sugerencias...',
+                '<div class="flex justify-center items-center p-4"><div style="display: flex; justify-content: center; align-items: center;"><svg style="width: 24px; height: 24px; animation: spin 1s linear infinite;" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="3.6"><circle cx="22" cy="22" r="20.2" stroke-opacity="0.25"/><path d="M44 22c0-11.0457-8.9543-20-20-20" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><p class="text-center mt-2">Analizando datos con la IA...</p></div>'
+            );
+
+            // Add spinner animation keyframes
+            const styleEl = document.createElement('style');
+            styleEl.innerHTML = `
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+                .MuiCircularProgress-indeterminate {
+                    animation: spin 1.5s linear infinite;
+                }
+                .MuiCircularProgress-colorSecondary {
+                    color: var(--secondary-main); /* Match Material-UI's secondary color */
+                }
+                .MuiCircularProgress-circle {
+                    stroke-dasharray: 80px, 200px;
+                    stroke-dashoffset: 0px;
+                    animation: circle-dash 1.5s ease-in-out infinite;
+                }
+                @keyframes circle-dash {
+                    0% { stroke-dasharray: 1px, 200px; stroke-dashoffset: 0px; }
+                    50% { stroke-dasharray: 100px, 200px; stroke-dashoffset: -15px; }
+                    100% { stroke-dasharray: 100px, 200px; stroke-dashoffset: -125px; }
+                }
+            `;
+            document.head.appendChild(styleEl);
+
+
+            let dataToAnalyze = [];
+            if (isPlottingActive && activeSession) {
+                dataToAnalyze = activeSession.data;
+            } else if (loadedSessionId) {
+                const loadedSession = allRoastSessions.find((s) => s.id === loadedSessionId);
+                if (loadedSession) {
+                    dataToAnalyze = loadedSession.data;
+                }
+            } else if (dataChart) {
+                // If no active or loaded session, use current chart data
+                for (let i = 0; i < currentIndex; i++) {
+                    const tempInt = dataChart.data.datasets[0].data[i];
+                    const tempFloat = dataChart.data.datasets[1].data[i];
+                    if (tempInt !== null && !isNaN(tempInt)) {
+                        dataToAnalyze.push({
+                            tiempo: dataChart.data.labels[i],
+                            temperaturaInt: tempInt,
+                            temperaturaFloat: tempFloat,
+                        });
+                    }
+                }
+            }
+
+            if (dataToAnalyze.length < 5) {
+                showOptimizationModal(
+                    'Datos Insuficientes',
+                    '<p class="text-red-500">No hay suficientes datos de temperatura para un análisis significativo. Por favor, inicia el gráficado o carga una sesión anterior y espera a que se acumulen más datos.</p>'
+                );
+                return;
+            }
+
+            const prompt = `Analiza los siguientes puntos de datos de temperatura (Celsius) de un proceso de tostado de café, donde cada punto representa la temperatura en un instante de tiempo específico (MM:SS). Cada punto de datos tiene una temperatura entera (principal) y una temperatura flotante (secundaria). Basado en la curva de temperatura principal (temperaturaInt):
+
+            1.  **Ofrece sugerencias para optimizar** este perfil de tostado. ¿Qué ajustes se podrían hacer en diferentes fases (secado, primer crack, desarrollo final)?
+            2.  **Predice posibles características de sabor** o notas que este café podría desarrollar con este perfil.
+            3.  **Menciona los rangos de temperatura ideales** para las fases de secado, primer crack y desarrollo en un tueste de café general, y compara brevemente con los datos proporcionados.
+
+            Datos de temperatura (Tiempo:TemperaturaInt:TemperaturaFloat):
+            ${dataToAnalyze.map((p) => `tiempo ${p.tiempo}, temperatura ${p.temperaturaInt}`).join('\n')}
+
+            Por favor, estructura tu respuesta en un formato fácil de leer, util.`;
+
+            let chatHistory = [];
+            chatHistory.push({ role: 'user', parts: [{ text: prompt }] });
+
+            const payload = { contents: chatHistory };
+            const apiKey = "AIzaSyCUwqhEQQDmNnr5cF7zN50UDeRrHQynNeo"; // Canvas will inject the API key
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`Error HTTP: ${response.status} - ${errorData.error.message || 'Error desconocido al llamar a la API de Gemini.'}`);
+                }
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const analysisText = result.candidates[0].content.parts[0].text;
+                    showOptimizationModal(
+                        'Optimización del Perfil de Tostado',
+                        `<div class="whitespace-pre-wrap font-sans">${analysisText}</div>`
+                    );
+                } else {
+                    showOptimizationModal('Error', '<p class="text-red-500">La respuesta de la IA no contiene el formato esperado. Intenta de nuevo más tarde.</p>');
+                    console.error('Respuesta inesperada de la API de Gemini:', result);
+                }
+            } catch (error) {
+                showOptimizationModal('Error en el Análisis', `<p class="text-red-500">${error.message}. Asegúrate de que los datos sean suficientes y que la conexión sea estable.</p>`);
+                console.error('Error al generar el análisis:', error);
+            }
+        }
+
+        // --- Event Listeners ---
+        window.onload = () => {
+            initializeChart();
+            initializeWebSocketConnection();
+            loadRoastSessions(); // Load sessions on startup
+
+            // Event listeners for text field labels
+            document.querySelectorAll('.text-field input').forEach(input => {
+                const label = document.getElementById(input.id.replace('-input', '-label'));
+                if (label) {
+                    input.addEventListener('focus', () => label.classList.add('active'));
+                    input.addEventListener('blur', () => {
+                        if (input.value === '') {
+                            label.classList.remove('active');
+                        }
+                    });
+                    // Initial check for pre-filled values
+                    if (input.value !== '') {
+                        label.classList.add('active');
+                    }
+                }
+            });
+        };
+
+        themeToggleBtn.addEventListener('click', toggleTheme);
+        startPlottingBtn.addEventListener('click', startPlotting);
+        stopPlottingBtn.addEventListener('click', stopPlotting);
+        resetChartBtn.addEventListener('click', resetChartData);
+        applySettingsBtn.addEventListener('click', applyChartSettings);
+        optimizeProfileBtn.addEventListener('click', optimizeRoastProfile);
+
+        modalCloseBtn.addEventListener('click', hideOptimizationModal);
+        modalConfirmBtn.addEventListener('click', hideOptimizationModal);
+    </script>
+</body>
+</html>
